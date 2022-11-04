@@ -7,7 +7,7 @@
 //   gender: string
 //   photo: string
 // }
-import type {Employee} from '../types/employeedatatypes'
+import type {Employee} from './types/employeedatatypes'
 type Props = {
   empData: Employee[]
 }

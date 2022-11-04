@@ -1,6 +1,6 @@
 // import GridCard from '../../components/GridCard'
-import ListCard from '../../components/ListCard'
-import type { Employee } from '../../types/employeedatatypes'
+import ListCard from '../../src/components/ListCard'
+import type { Employee } from '../../src/components/types/employeedatatypes'
 // import { getAllEmployees } from '../../resolvers/getallemployees'
 
 // export const getServerSideProps = async () =>{
