@@ -16,9 +16,7 @@ const ViewEmployee = () => {
           'Access-Control-Allow-Origin': '*',
         },
       }).then((res)=> res.json()).then((data:Employee[]|any)=> {setEmpDataArr(data);})
-    }
-
-   
+    }   
     getAllEmployees()
    
     // const dataFetched = fetchEmployees()
@@ -37,9 +35,9 @@ const ViewEmployee = () => {
     <>
       <div>
         view all employees page
-        {/* {employeeDataArr?.map((emp: Employee) => {
+        {employeeDataArr?.map((emp: Employee) => {
           return <ListCard key={emp.id} empData={emp} />
-        })} */}
+        })}
       </div>
     </>
   )
