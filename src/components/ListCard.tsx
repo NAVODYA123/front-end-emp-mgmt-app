@@ -1,34 +1,22 @@
-// export type Employee = {
-//   id: string
-//   firstname: string
-//   lastname: string
-//   email: string
-//   number: number | string
-//   gender: string
-//   photo: string
-// }
-import type {Employee} from './types/employeedatatypes'
+import type { Employee } from '../types/employeedatatypes'
 type Props = {
-  empData: Employee[]
+  empData: Employee
 }
 
-//   type Props = {employeeData: Props}
+import Box from '@mui/material/Box'
 
-const ListCard = ({ ...employeeData }: Props) => {
-  // getServerSideProps()
-  const b = JSON.parse(JSON.stringify(employeeData))
-  console.log('emp data',employeeData)
-  console.log('b',b)
+const ListCard = ({ empData }: Props) => {
   return (
     <div>
-    
-      {/* {employeeData?.map((item) => {
-        return (
-          <div key={item.id}>
-            <div>{item.id}</div>
-          </div>
-        )
-      })} */}
+      <Box>
+        <div>{empData.photo}</div>
+        <div>{empData.firstname}</div>
+        <div>{empData.lastname}</div>
+        <div>{empData.email}</div>
+        <div>{empData.photo}</div>
+        <div>{empData.gender}</div>
+        <div>Actions</div>
+      </Box>
     </div>
   )
 }

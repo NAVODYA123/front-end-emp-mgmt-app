@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  headers:[{"key": "Access-Control-Allow-Origin","value": "*"}],
+  // headers:[{"key": "Access-Control-Allow-Origin","value": "*"}],
 }
 
 module.exports = nextConfig
