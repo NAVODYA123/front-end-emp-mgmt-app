@@ -74,14 +74,17 @@ const GridCard = ({ empData }: Props) => {
               alignItems: 'center',
             }}
           >
+            <Box>
             <Typography variant='h6' sx={{fontWeight: 'bold',}}>
-              <div style={{}}>{`${empData.firstname}${' '}${
+              <Box style={{}}>{`${empData.firstname}${' '}${
                 empData.lastname
-              }`}</div>
+              }`}</Box>
             </Typography>
-
-            <Typography variant='body2'>
-              <div
+            
+            </Box>
+            <Box>
+            {/* <Typography variant='body2'> */}
+              <Box
                 style={{
                   display: 'flex',
                   flexDirection: 'row',
@@ -90,7 +93,7 @@ const GridCard = ({ empData }: Props) => {
               >
                 <MailOutlineRoundedIcon  fontSize='small' sx={{m:1}}/>
                 <Tooltip title={empData.email} placement="right-end">
-                <div
+                <Box
                   style={{
                     maxWidth: '150px',
                     overflow: 'hidden',
@@ -99,11 +102,11 @@ const GridCard = ({ empData }: Props) => {
                 > 
                   {empData.email}
                   
-                </div>
+                </Box>
                 </Tooltip>
-              </div>
+              </Box>
 
-              <div
+              <Box
                 style={{
                   display: 'flex',
                   flexDirection: 'row',
@@ -111,11 +114,12 @@ const GridCard = ({ empData }: Props) => {
                 }}
               >
                 <PhoneOutlinedIcon fontSize='small' sx={{m:1}} />
-                <div>{empData.number}</div>
-              </div>
+                <Box>{empData.number}</Box>
+              </Box>
 
-              <div style={{display:'flex', flexDirection:'row', justifyContent:'center'}}>{empData.gender === 'M' ? 'Male' : 'Female'}</div>
-            </Typography>
+              <Box style={{display:'flex', flexDirection:'row', justifyContent:'center'}}>{empData.gender === 'M' ? 'Male' : 'Female'}</Box>
+            {/* </Typography> */}
+            </Box>
           </CardContent>
         </Card>
       </Grid>

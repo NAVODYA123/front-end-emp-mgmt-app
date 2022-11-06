@@ -18,9 +18,9 @@ const ListTableHeader = () => {
         borderRadius: '8px',        
         alignItems: 'center',}}>
       {' '}
-      <Typography sx={{
+      <Box sx={{
         width:'100%',
-        fontWeight: 'bold',display: 'flex',
+        fontWeight: 'bold', display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-evenly',}}>
       <Box sx={{ width: '10%' }}>Photo</Box>
@@ -30,7 +30,7 @@ const ListTableHeader = () => {
       <Box sx={{ width: '10%' }}>Phone</Box>
       <Box sx={{ width: '10%' }}>Gender</Box>
       <Box sx={{ width: '10%' }}>Actions</Box>
-      </Typography>
+      </Box>
     </Box>
     </Box>
   )

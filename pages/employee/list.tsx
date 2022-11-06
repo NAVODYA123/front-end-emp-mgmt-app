@@ -86,6 +86,7 @@ const ViewEmployee = () => {
       
         <ConditionalWrapper condition={!toggleList}>
           {employeeDataArr?.map((emp: Employee) => {
+            
             return toggleList ? (
               <Box
               sx={{
@@ -97,11 +98,11 @@ const ViewEmployee = () => {
                 mb: 2,
               }}
             >
-                <ListCard key={emp.id} empData={emp} />
+                <ListCard key={`emp-id-list-${emp.id}`} empData={emp} />
                 </Box>
             ) : (
               
-              <GridCard key={emp.id} empData={emp} />
+              <GridCard key={`emp-id-grid-${emp.id}`} empData={emp} />
              
             )
           })}
