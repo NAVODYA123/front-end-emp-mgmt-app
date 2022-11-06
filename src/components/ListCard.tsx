@@ -10,6 +10,7 @@ import EditRoundedIcon from '@mui/icons-material/EditRounded'
 // import Paper from '@mui/material/Paper';
 // import { MarginRounded } from '@mui/icons-material'
 import { shadows } from '@mui/system'
+import IconButton from '@mui/material/IconButton'
 
 const ListCard = ({ empData }: Props) => {
   return (
@@ -21,9 +22,11 @@ const ListCard = ({ empData }: Props) => {
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         borderRadius: '8px',
-        border: '1px solid grey',
-        boxShadow: 3,
-        alignItems: 'center'
+        boxShadow: 2,
+        alignItems: 'center',
+        '&:hover':{
+          boxShadow: 8,
+        }
       }}
     >
       <Box sx={{ width: '10%' }}>
@@ -33,11 +36,17 @@ const ListCard = ({ empData }: Props) => {
       {/* <div>{empData.photo}</div> */}
       <Box sx={{ width: '10%' }}>{empData.firstname}</Box>
       <Box sx={{ width: '10%' }}>{empData.lastname}</Box>
-      <Box sx={{ width: '30%' }}>{empData.email}</Box>
-      <Box sx={{ width: '10%' }}>{empData.gender}</Box>
+      <Box sx={{ width: '20%' }}>{empData.email}</Box>
+      <Box sx={{ width: '10%' }}>{empData.number}</Box>
+      <Box sx={{ width: '10%' }}>{empData.gender ==='M' ? 'Male' : 'Female'}</Box>
       <Box sx={{ width: '10%' }}>
-        <DeleteIcon />
-        <EditRoundedIcon />
+
+      <IconButton >
+        <DeleteIcon fontSize="medium"/>
+        </IconButton>
+        <IconButton >
+        <EditRoundedIcon fontSize="medium"/>
+        </IconButton>
       </Box>
     </Box>
   )

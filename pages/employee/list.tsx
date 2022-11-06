@@ -63,7 +63,7 @@ const ViewEmployee = () => {
             width: '100%',
             display: 'flex',
             flexDirection: 'row',
-            justifyContent: 'flex-start',
+            justifyContent: 'center',
           }}
         >
           view all employees page
@@ -83,38 +83,30 @@ const ViewEmployee = () => {
             <ViewListIcon />
           </IconButton>
         </Box>
-
-        <ConditionalWrapper
-          condition={toggleList}        
-        >
-        {employeeDataArr?.map((emp: Employee) => {
-          return toggleList ? (
-            <Box
+      
+        <ConditionalWrapper condition={!toggleList}>
+          {employeeDataArr?.map((emp: Employee) => {
+            return toggleList ? (
+              <Box
               sx={{
                 width: '100%',
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'center !important',
-                mt: 1,
-                mb: 1,
+                mt: 2,
+                mb: 2,
               }}
             >
-              <ListCard key={emp.id} empData={emp} />
-            </Box>
-          ) : (           
-              <Grid
-                container
-                rowSpacing={1}
-                columnSpacing={{ xs: 1, sm: 1, md: 1 }}
-              >
-                 <Grid md={3}>
-                <GridCard key={emp.id} empData={emp} />
-                </Grid>
-              </Grid>
-         
-          )
-        })}
+                <ListCard key={emp.id} empData={emp} />
+                </Box>
+            ) : (
+              
+              <GridCard key={emp.id} empData={emp} />
+             
+            )
+          })}
         </ConditionalWrapper>
+       
         <Box
           sx={{
             width: '100%',
