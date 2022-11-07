@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import Grid from '@mui/material/Unstable_Grid2'
@@ -10,42 +10,59 @@ import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import { minWidth } from '@mui/system'
 import useFormValidateHook from '../.././src/hooks/useFormValidateHook'
-import InputAdornment from '@mui/material/InputAdornment';
+import InputAdornment from '@mui/material/InputAdornment'
+import {
+  Employee,
+  messegeTypes,
+  FormData,
+} from '../../src/types/employeeDataTypes'
 
-
-export type formData = {
-firstName: string,
-lastName: string,
-gender: string,
-phone: string,
-email: string,
-}
-
-
-
+// export type formData = {
+// firstName: string,
+// lastName: string,
+// gender: string,
+// phone: string,
+// email: string,
+// }
 
 const AddNewEmployee = () => {
-  const [gender, setGender] = useState('Select gender')
-  const [fieldError, setFieldError] = useState(false)
+  const [gender, setGender] = useState('F')
+  // const [fieldError, setFieldError] = useState(false)
   const [firstName, setfirstName] = useState('')
   const [lastName, setlastName] = useState('')
   const [phone, setPhone] = useState<number>(0)
   const [email, setEmail] = useState('')
 
- const {errorMesseges,errorState,fieldValue,validateFormData}= useFormValidateHook()
+  const { validationStatus, errorMesseges, fieldValues, validateFormData } =
+    useFormValidateHook()
+  // console.log('object keys',Object.keys(errorMesseges)[0])
+
+  console.log('errorMesseges here:', errorMesseges)
+
+  useEffect(() => {}, [])
+
+  const addNewEmployeeRecord = async (fieldValues?: FormData) => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+      body: JSON.stringify(fieldValues),
+    })
+  }
 
   const handleChange = (event: SelectChangeEvent) => {
     setGender(event.target.value)
   }
 
-  const onFormSubmit = () => {
-
-    validateFormData({firstName,lastName,gender,phone,email})
-
-   
+  const onFormSubmit = async () => {
+    validateFormData({ firstName, lastName, gender, phone, email })
+    console.log('validation status', validationStatus)
+    if (validationStatus) {
+      await addNewEmployeeRecord(fieldValues)
+    }
   }
-
-  const handleFieldChange = () => {}
 
   return (
     <Box>
@@ -94,41 +111,50 @@ const AddNewEmployee = () => {
           </Button>
 
           <TextField
-            error={fieldError}
+            error={errorMesseges?.firstName.length===0}
             sx={{ width: '60%' }}
             required
             id='standard-basic'
             label='First name'
             variant='standard'
+            helperText={errorMesseges?.firstName}
             onChange={(e) => setfirstName(e?.target.value)}
           />
           <TextField
+           error={errorMesseges?.lastName.length===0}
             sx={{ width: '60%' }}
             required
             id='standard-basic'
             label='Last Name'
             variant='standard'
+            helperText={errorMesseges?.lastName}
             onChange={(e) => setlastName(e?.target.value)}
           />
 
           <TextField
+           error={errorMesseges?.email.length===0}
             sx={{ width: '60%' }}
             required
             id='standard-basic'
             label='Email'
             variant='standard'
+            helperText={errorMesseges?.email}
             onChange={(e) => setEmail(e?.target.value)}
           />
 
           <TextField
+            error={errorMesseges?.phone?.length !== 0}
             sx={{ width: '60%' }}
             required
             id='standard-required'
             label='Phone'
             variant='standard'
             InputProps={{
-              startAdornment: <InputAdornment position="start">+94</InputAdornment>,
+              startAdornment: (
+                <InputAdornment position='start'>+94</InputAdornment>
+              ),
             }}
+            helperText={errorMesseges?.phone}
             onChange={(e) => setPhone(Number(e?.target.value))}
           />
           <FormControl variant='standard' sx={{ m: 1, width: '60%' }}>

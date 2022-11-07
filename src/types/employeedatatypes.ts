@@ -20,3 +20,19 @@ export type FormData = {
   phone: number,
   email: string,
 }
+
+export type messegeTypes = {
+  firstName: string,
+  lastName: string,
+  phone: string,
+  email: string,
+}
+
+
+export type ValidationData = {
+  validationStatus:boolean,
+  errorMesseges?: messegeTypes,
+  fieldValues?: FormData,
+  validateFormData: Function
+  
+}
