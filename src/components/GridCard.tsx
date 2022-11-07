@@ -1,4 +1,4 @@
-import type { Employee } from '../types/employeedatatypes'
+import type { Employee } from '../types/employeeDataTypes'
 type Props = {
   empData: Employee
 }

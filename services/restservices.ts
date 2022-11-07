@@ -1,4 +1,4 @@
-import { Employee } from '../src/types/employeedatatypes'
+import { Employee } from '../src/types/employeeDataTypes'
 
 // get all the employees
 export const displayAllEmployees = async () => {

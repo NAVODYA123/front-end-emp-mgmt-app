@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { Employee } from '../types/employeedatatypes'
+import { Employee } from '../types/employeeDataTypes'
 
 const initialState  = {
     // id: "",

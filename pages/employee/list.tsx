@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { displayAllEmployees } from '../../services/restservices'
-import { Employee } from '../../src/types/employeedatatypes'
+import { Employee } from '../../src/types/employeeDataTypes'
 import ListCard from '../../src/components/ListCard'
 import GridCard from '../../src/components/GridCard'
 import IconButton from '@mui/material/IconButton'
