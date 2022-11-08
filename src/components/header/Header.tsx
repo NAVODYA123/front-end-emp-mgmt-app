@@ -17,7 +17,7 @@ const Header = () => {
       }}
     >
          <Link href='/'>
-      <IconButton>
+      <IconButton sx={{pl:2, pt:2, pr:2, pb:2}}>
         <HomeIcon fontSize='large'/>
       </IconButton>
       </Link>

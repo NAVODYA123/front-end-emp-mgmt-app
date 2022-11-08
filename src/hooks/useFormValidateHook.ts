@@ -16,9 +16,14 @@ const useFormValidateHook = (): ValidationData => {
     )
     if (typeof emailData !== 'string') {
       errorMessegeValue = 'only letters and @ are allowed'
-    } else if (regex.test(emailData)) {
-      errorMessegeValue = 'invalid email. Please enter a valid email'
-    } else if (emailData.length === 0) {
+    } 
+    
+    // else if (regex.test(emailData)) {
+    //   errorMessegeValue = 'invalid email. Please enter a valid email'
+    // } 
+    
+    
+    else if (emailData.length === 0) {
       errorMessegeValue = 'Email name cannot be empty'
     } else {
       errorMessegeValue = ''
@@ -29,17 +34,17 @@ const useFormValidateHook = (): ValidationData => {
     return returnObject
   }
 
-  const validateFirstName = (firstName: string) => {
+  const validateFirstName = (firstname: string) => {
     let errorMessegeValue = ''
-    let returnObject = { messege: '', fieldValue: firstName, valid: false }
+    let returnObject = { messege: '', fieldValue: firstname, valid: false }
     ////first name
-    if (typeof firstName !== 'string') {
+    if (typeof firstname !== 'string') {
       errorMessegeValue = 'only letters are allowed'
-    } else if (firstName.length == 0) {
+    } else if (firstname.length == 0) {
       errorMessegeValue = 'first name cannot be empty'
-    } else if (firstName.length < 6) {
+    } else if (firstname.length < 6) {
       errorMessegeValue = 'length of first name should be at least 6 characters'
-    } else if (firstName.length > 10) {
+    } else if (firstname.length > 10) {
       errorMessegeValue =
         'length of first name should not be greater than 10 characters'
     } else {
@@ -49,16 +54,16 @@ const useFormValidateHook = (): ValidationData => {
     returnObject.messege = errorMessegeValue
     return returnObject
   }
-  const validateLastName = (lastName: string) => {
+  const validateLastName = (lastname: string) => {
     let errorMessegeValue = ''
-    let returnObject = { messege: '', fieldValue: lastName, valid: false }
-    if (typeof lastName !== 'string') {
+    let returnObject = { messege: '', fieldValue: lastname, valid: false }
+    if (typeof lastname !== 'string') {
       errorMessegeValue = 'only letters are allowed'
-    } else if (lastName.length == 0) {
+    } else if (lastname.length == 0) {
       errorMessegeValue = 'last name cannot be empty'
-    } else if (lastName.length < 6) {
+    } else if (lastname.length < 6) {
       errorMessegeValue = 'length of last name should be at least 6 characters'
-    } else if (lastName.length > 10) {
+    } else if (lastname.length > 10) {
       errorMessegeValue =
         'length of last name should not be greater than 10 characters'
     } else {
@@ -70,21 +75,23 @@ const useFormValidateHook = (): ValidationData => {
     return returnObject
   }
 
-  const validatePhone = (phone: number) => {
+  const validatePhone = (number: number) => {
     let errorMessegeValue = ''
-    let returnObject = { messege: '', fieldValue: phone, valid: false }
+    let returnObject = { messege: '', fieldValue: number, valid: false }
 
-    if (typeof phone !== 'number' || isNaN(phone)) {
+    if (typeof number !== 'number' || isNaN(number)) {
       errorMessegeValue =
         'only numbers are allowed. Phone number should be in the format +94XXXXXXX'
-    } else if (String(phone).length === 0) {
+    } else if (String(number).length === 0) {
       errorMessegeValue = 'phone number cannot be empty'
-    } else if (String(phone).length !== 9) {
+    } else if (String(number).length !== 9) {
       errorMessegeValue =
         'A valid phone number should have 9 digits excluding the 0'
     } else {
       errorMessegeValue = ''
       returnObject.valid = true
+      returnObject.fieldValue=Number(`+94${returnObject.fieldValue}`)
+      console.log('returnObject.fieldValue',returnObject.fieldValue)
     }
     returnObject.messege = errorMessegeValue
 
@@ -94,9 +101,9 @@ const useFormValidateHook = (): ValidationData => {
   const validateFormData = async (submittedData: FormData) => {
 
     const emailDataObject = validateEmail(submittedData.email)
-    const firstNameDataObject = validateFirstName(submittedData.firstName)
-    const lastNameDataObject = validateLastName(submittedData.lastName)
-    const PhoneDataObject = validatePhone(submittedData.phone)
+    const firstNameDataObject = validateFirstName(submittedData.firstname)
+    const lastNameDataObject = validateLastName(submittedData.lastname)
+    const PhoneDataObject = validatePhone(submittedData.number)
 
     const validationState = (PhoneDataObject.valid) && (firstNameDataObject.valid) && (lastNameDataObject.valid) && (emailDataObject.valid)
     setValidationStaus(validationState)
@@ -105,18 +112,18 @@ const useFormValidateHook = (): ValidationData => {
 
     setErrorMesseges({
       ...errorMesseges,
-      phone: PhoneDataObject.messege,
-      firstName: firstNameDataObject.messege,
-      lastName: lastNameDataObject.messege,
+      number: PhoneDataObject.messege,
+      firstname: firstNameDataObject.messege,
+      lastname: lastNameDataObject.messege,
       email: emailDataObject.messege,
     })
 
 
     setFieldValue({
       ...fieldValues,
-      phone: PhoneDataObject.fieldValue,
-      firstName: firstNameDataObject.fieldValue,
-      lastName: lastNameDataObject.fieldValue,
+      number: PhoneDataObject.fieldValue,
+      firstname: firstNameDataObject.fieldValue,
+      lastname: lastNameDataObject.fieldValue,
       email: emailDataObject.fieldValue,
       gender: `${fieldValues?.gender}`
     })

@@ -11,6 +11,7 @@ import Button from '@mui/material/Button'
 import { minWidth } from '@mui/system'
 import useFormValidateHook from '../.././src/hooks/useFormValidateHook'
 import InputAdornment from '@mui/material/InputAdornment'
+import Typography from '@mui/material/Typography'
 import {
   Employee,
   messegeTypes,
@@ -21,16 +22,16 @@ import {
 // firstName: string,
 // lastName: string,
 // gender: string,
-// phone: string,
+// number: string,
 // email: string,
 // }
 
 const AddNewEmployee = () => {
   const [gender, setGender] = useState('F')
   // const [fieldError, setFieldError] = useState(false)
-  const [firstName, setfirstName] = useState('')
-  const [lastName, setlastName] = useState('')
-  const [phone, setPhone] = useState<number>(0)
+  const [firstname, setfirstName] = useState('')
+  const [lastname, setlastName] = useState('')
+  const [number, setPhone] = useState<number>(0)
   const [email, setEmail] = useState('')
 
   const { validationStatus, errorMesseges, fieldValues, validateFormData } =
@@ -42,6 +43,8 @@ const AddNewEmployee = () => {
   useEffect(() => {}, [])
 
   const addNewEmployeeRecord = async (fieldValues?: FormData) => {
+
+    
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee`, {
       method: 'POST',
       headers: {
@@ -52,12 +55,13 @@ const AddNewEmployee = () => {
     })
   }
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setGender(event.target.value)
+  const handleChange = (event:any) => {
+    console.log('gender',gender)
+    setGender(event?.target.value)
   }
 
   const onFormSubmit = async () => {
-    validateFormData({ firstName, lastName, gender, phone, email })
+    validateFormData({ firstname, lastname, gender, number, email })
     console.log('validation status', validationStatus)
     if (validationStatus) {
       await addNewEmployeeRecord(fieldValues)
@@ -66,8 +70,21 @@ const AddNewEmployee = () => {
 
   return (
     <Box>
-      <Box> Add new employee</Box>
-
+      {/* <Box> Add new employee</Box> */}
+     
+        <Box
+          sx={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            pl:8,
+            pt:4
+          }}
+        > 
+        <Typography variant='h4' color='primary.dark' sx={{textTransform:'capitalize'}}>
+          Add Employee</Typography>
+        </Box>
       <Box
         sx={{
           width: '100%',
@@ -111,23 +128,23 @@ const AddNewEmployee = () => {
           </Button>
 
           <TextField
-            error={errorMesseges?.firstName.length!==0}
+            error={errorMesseges?.firstname.length!==0}
             sx={{ width: '60%' }}
             required
             id='standard-basic'
             label='First name'
             variant='standard'
-            helperText={errorMesseges?.firstName}
+            helperText={errorMesseges?.firstname}
             onChange={(e) => setfirstName(e?.target.value)}
           />
           <TextField
-           error={errorMesseges?.lastName.length!==0}
+           error={errorMesseges?.lastname.length!==0}
             sx={{ width: '60%' }}
             required
             id='standard-basic'
             label='Last Name'
             variant='standard'
-            helperText={errorMesseges?.lastName}
+            helperText={errorMesseges?.lastname}
             onChange={(e) => setlastName(e?.target.value)}
           />
 
@@ -143,18 +160,18 @@ const AddNewEmployee = () => {
           />
 
           <TextField
-            error={errorMesseges?.phone?.length !== 0}
+            error={errorMesseges?.number?.length !== 0}
             sx={{ width: '60%' }}
             required
             id='standard-required'
-            label='Phone'
+            label='number'
             variant='standard'
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>+94</InputAdornment>
               ),
             }}
-            helperText={errorMesseges?.phone}
+            helperText={errorMesseges?.number}
             onChange={(e) => setPhone(Number(e?.target.value))}
           />
           <FormControl variant='standard' sx={{ m: 1, width: '60%' }}>
@@ -162,9 +179,11 @@ const AddNewEmployee = () => {
             <Select
               labelId='gender-select-label'
               value={gender}
-              onChange={handleChange}
+              onChange={(e)=>handleChange(e?.target.value)}
               label='Select a gender'
-            >
+            ><MenuItem value="">
+            <em>None</em>
+          </MenuItem>
               <MenuItem value={'M'}>Male</MenuItem>
               <MenuItem value={'F'}>Female</MenuItem>
             </Select>

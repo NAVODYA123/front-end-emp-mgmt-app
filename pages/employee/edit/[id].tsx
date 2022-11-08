@@ -10,39 +10,64 @@ import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import { minWidth } from '@mui/system'
 
-export const getStaticPaths = async () => {
-  const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-    },
-  })
-
-  const data = await result.json()
-
-  const paths = data.map((item: any) => {
-    return {
-      params: item.id.toString(),
-    }
-  })
-
-  return {
-    paths,
-    fallback:false
-  }
-}
+import {
+  Employee
+} from '../../../src/types/employeeDataTypes'
+import { useRouter } from 'next/router'
+import { useSelector } from 'react-redux'
+import { selectEmployees } from '../../../src/slices/employee'
+import Typography from '@mui/material/Typography'
 
 
-export const getStaticProps = async (context:any) =>{
-const id = context.params.id
 
-}
+// import updateRecord, { testMethod } from '../../.././src/slices/employee'
+// import{RootState} from '../../../src/store/store'
+
+// import { useSelector, useDispatch } from 'react-redux'
+
+// export const getStaticPaths = async () => {
+//   const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee`, {
+//     method: 'GET',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       'Access-Control-Allow-Origin': '*',
+//     },
+//   })
+
+//   const data = await result.json()
+//   console.log('data prints',data)
+
+//   const paths = data.map((item: any) => {
+//     return {
+//       params: item.id.toString(),
+//     }
+//   })
+
+//   return {
+//     paths,
+//     fallback:false
+//   }
+// }
+
+
+// export const getStaticProps = async (context:any) =>{
+// const id = context.params.id
+
+// }
 
 const EditEmployeeRecord = () => {
   const [gender, setGender] = useState('Select gender')
   const [fieldError, setFieldError] = useState(false)
 
+const router = useRouter()
+
+const{id} = router.query
+
+const employeeArray = (useSelector(selectEmployees)).employees.map(empItem=>empItem as Employee)
+
+const empRecord = employeeArray.find((employee)=> employee.id == id)
+
+console.log({empRecord})
   const handleChange = (event: SelectChangeEvent) => {
     setGender(event.target.value)
   }
@@ -62,7 +87,19 @@ const EditEmployeeRecord = () => {
 
   return (
     <Box>
-      <Box> Edit employee record</Box>
+     <Box
+          sx={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            pl:8,
+            pt:4
+          }}
+        > 
+        <Typography variant='h4' color='primary.dark' sx={{textTransform:'capitalize'}}>
+          Edit Employee</Typography>
+        </Box>
 
       <Box
         sx={{
@@ -161,7 +198,8 @@ const EditEmployeeRecord = () => {
               alignItems: 'center',
             }}
           >
-            <Button variant='contained'>Update Record</Button>
+            <Button variant='contained' >Update Record</Button>
+            {/* onClick={()=>dispatch(decrement())} */}
             <Button variant='outlined'>Cancel</Button>
           </Box>
           {/* </Grid>

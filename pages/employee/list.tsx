@@ -13,8 +13,10 @@ import Grid from '@mui/material/Unstable_Grid2'
 import ConditionalWrapper from '../../src/components/ConditionalWrapper'
 import Fab from '@mui/material/Fab'
 import AddIcon from '@mui/icons-material/Add'
-import Link from 'next/link';
+import Link from 'next/link'
 import Typography from '@mui/material/Typography'
+import { useDispatch, useSelector } from 'react-redux'
+import { populateData, selectEmployees } from '../../src/slices/employee'
 
 // type displayLayoutConditions = {
 //   condition:boolean,
@@ -23,42 +25,27 @@ import Typography from '@mui/material/Typography'
 // }
 
 const ViewEmployee = () => {
-  const [employeeDataArr, setEmpDataArr] = useState<Employee[] | any>()
+  // const [employeeDataArr, setEmpDataArr] = useState<Employee[] | any>()
   const [toggleList, setToggleList] = useState(true)
-
+  const dispatch = useDispatch()
+const employeeArray = (useSelector(selectEmployees)).employees.map(empItem=>empItem as Employee)
+  const getAllEmployees = async () => {
+    const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => res.json())
+      .then((data: Employee[] | any) => {
+        // setEmpDataArr(data)
+        dispatch(populateData(data))
+      })
+  }
   useEffect(() => {
-    const getAllEmployees = async () => {
-      const result = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/employee`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-          },
-        }
-      )
-        .then((res) => res.json())
-        .then((data: Employee[] | any) => {
-          setEmpDataArr(data)
-        })
-    }
     getAllEmployees()
-
-    // const dataFetched = fetchEmployees()
-    // console.log('printed', dataFetched)
-    // setEmpDataArr(dataFetched)
   }, [])
-  console.log('employee', employeeDataArr)
-  // const fetchEmployees = async () => {
-  //   const employees = await displayAllEmployees()
-  //   return employees
-  // }
-
-  // const toggleView() => {
-  //   setUserView()
-  // }
-
+  // console.log('employee', employeeDataArr)
   return (
     <>
       <Box sx={{}}>
@@ -67,20 +54,36 @@ const ViewEmployee = () => {
             width: '100%',
             display: 'flex',
             flexDirection: 'row',
-            justifyContent: 'center',
-            pl:8,
-            pt:4
+            justifyContent: 'flex-start',
+            pl: 8,
+            pt: 4,
           }}
-        > <Typography variant='h4' color='primary.dark' sx={{textTransform:'capitalize'}}>
-          All Employees</Typography>
+        >
+          {' '}
+          <Typography
+            variant='h4'
+            color='primary.dark'
+            sx={{ textTransform: 'capitalize' }}
+          >
+            All Employees
+          </Typography>
         </Box>
-        <Box sx={{width:'100%', display:'flex', flexDirection:'row', justifyContent:'flex-end', pr:8}}>
-        <Link href="/employee/add" passHref ><Fab color='primary' aria-label='add'>
-            <AddIcon />
-          </Fab>
-          </Link> 
+        <Box
+          sx={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+            pr: 8,
+          }}
+        >
+          <Link href='/employee/add' passHref>
+            <Fab color='primary' aria-label='add'>
+              <AddIcon />
+            </Fab>
+          </Link>
         </Box>
-   
+
         <Box
           sx={{
             width: '90%',
@@ -98,9 +101,10 @@ const ViewEmployee = () => {
         </Box>
 
         <ConditionalWrapper condition={!toggleList}>
-          {employeeDataArr?.map((emp: Employee) => {
+          {employeeArray?.map((emp: Employee) => {
             return toggleList ? (
               <Box
+                key={emp.id}
                 sx={{
                   width: '100%',
                   display: 'flex',

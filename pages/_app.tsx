@@ -1,16 +1,22 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import { store } from '../src/store/store'
+import { warpper } from '../src/store/store'
 import { Provider } from 'react-redux'
 import Header from '../src/components/header/Header'
 import Footer from '../src/components/footer/Footer'
+import { FC } from 'react'
 
-export default function App({ Component, pageProps }: AppProps) {
+const App: FC<AppProps> = ({ Component, ...rest }: AppProps) => {
+  const { store, props } = warpper.useWrappedStore(rest)
+  const { pageProps } = props
+
   return (
     <Provider store={store}>
-     <Header/>
+      <Header />
       <Component {...pageProps} />
-      <Footer/>
+      <Footer />
     </Provider>
   )
 }
+
+export default App

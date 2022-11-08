@@ -8,23 +8,31 @@ export type Employee = {
   photo: string
 }
 
-export type formEntry = {
-  name: string
-  value: string | number
-}
+// export type formEntry = {
+//   name: string
+//   value: string | number
+// }
 
 export type FormData = {
-  firstName: string,
-  lastName: string,
+  firstname: string,
+  lastname: string,
   gender: string,
-  phone: number,
+  number: number,
   email: string,
 }
 
+export type FormEntry = {
+  firstname: string
+  lastname: string
+  email: string
+  number: string
+  gender: string  
+}
+
 export type messegeTypes = {
-  firstName: string,
-  lastName: string,
-  phone: string,
+  firstname: string,
+  lastname: string,
+  number: string,
   email: string,
 }
 
