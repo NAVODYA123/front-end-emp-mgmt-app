@@ -14,6 +14,7 @@ import ConditionalWrapper from '../../src/components/ConditionalWrapper'
 import Fab from '@mui/material/Fab'
 import AddIcon from '@mui/icons-material/Add'
 import Link from 'next/link';
+import Typography from '@mui/material/Typography'
 
 // type displayLayoutConditions = {
 //   condition:boolean,
@@ -67,9 +68,11 @@ const ViewEmployee = () => {
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'center',
+            pl:8,
+            pt:4
           }}
-        >
-          view all employees page
+        > <Typography variant='h4' color='primary.dark' sx={{textTransform:'capitalize'}}>
+          All Employees</Typography>
         </Box>
         <Box sx={{width:'100%', display:'flex', flexDirection:'row', justifyContent:'flex-end', pr:8}}>
         <Link href="/employee/add" passHref ><Fab color='primary' aria-label='add'>
