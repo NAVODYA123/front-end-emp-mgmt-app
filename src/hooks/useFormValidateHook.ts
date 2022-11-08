@@ -1,11 +1,16 @@
 import { useState } from 'react'
-import { FormData, messegeTypes, ValidationData } from '../types/employeeDataTypes'
-
+import {
+  ErrorStatusType,
+  FormData,
+  messegeTypes,
+  ValidationData,
+} from '../types/employeeDataTypes'
 
 const useFormValidateHook = (): ValidationData => {
   const [errorMesseges, setErrorMesseges] = useState<messegeTypes>()
   const [fieldValues, setFieldValue] = useState<FormData>()
   const [validationStatus, setValidationStaus] = useState(false)
+  const [errorStatus, setErrorStatus] = useState<ErrorStatusType>()
 
   const validateEmail = (emailData: string) => {
     let errorMessegeValue = ''
@@ -16,13 +21,11 @@ const useFormValidateHook = (): ValidationData => {
     )
     if (typeof emailData !== 'string') {
       errorMessegeValue = 'only letters and @ are allowed'
-    } 
-    
+    }
+
     // else if (regex.test(emailData)) {
     //   errorMessegeValue = 'invalid email. Please enter a valid email'
-    // } 
-    
-    
+    // }
     else if (emailData.length === 0) {
       errorMessegeValue = 'Email name cannot be empty'
     } else {
@@ -70,7 +73,6 @@ const useFormValidateHook = (): ValidationData => {
       errorMessegeValue = ''
       returnObject.valid = true
     }
-    // console.log('errorMessegeValue',errorMessegeValue)
     returnObject.messege = errorMessegeValue
     return returnObject
   }
@@ -90,8 +92,8 @@ const useFormValidateHook = (): ValidationData => {
     } else {
       errorMessegeValue = ''
       returnObject.valid = true
-      returnObject.fieldValue=Number(`+94${returnObject.fieldValue}`)
-      console.log('returnObject.fieldValue',returnObject.fieldValue)
+      returnObject.fieldValue = Number(`+94${returnObject.fieldValue}`)
+      console.log('returnObject.fieldValue', returnObject.fieldValue)
     }
     returnObject.messege = errorMessegeValue
 
@@ -99,43 +101,45 @@ const useFormValidateHook = (): ValidationData => {
   }
 
   const validateFormData = async (submittedData: FormData) => {
-
     const emailDataObject = validateEmail(submittedData.email)
     const firstNameDataObject = validateFirstName(submittedData.firstname)
     const lastNameDataObject = validateLastName(submittedData.lastname)
     const PhoneDataObject = validatePhone(submittedData.number)
-
-    const validationState = (PhoneDataObject.valid) && (firstNameDataObject.valid) && (lastNameDataObject.valid) && (emailDataObject.valid)
+    const validationState =
+      PhoneDataObject.valid &&
+      firstNameDataObject.valid &&
+      lastNameDataObject.valid &&
+      emailDataObject.valid
     setValidationStaus(validationState)
-
-
 
     setErrorMesseges({
       ...errorMesseges,
-      number: PhoneDataObject.messege,
       firstname: firstNameDataObject.messege,
       lastname: lastNameDataObject.messege,
+      number: PhoneDataObject.messege,
       email: emailDataObject.messege,
     })
 
-
     setFieldValue({
       ...fieldValues,
-      number: PhoneDataObject.fieldValue,
       firstname: firstNameDataObject.fieldValue,
       lastname: lastNameDataObject.fieldValue,
+      number: PhoneDataObject.fieldValue,
       email: emailDataObject.fieldValue,
-      gender: `${fieldValues?.gender}`
+      gender: `${fieldValues?.gender}`,
+      photo: '',
     })
 
-
+    setErrorStatus({
+      ...errorStatus,
+      firstname: firstNameDataObject.valid,
+      lastname: lastNameDataObject.valid,
+      number: PhoneDataObject.valid,
+      email: emailDataObject.valid,
+    })
   }
 
-
-
-
-  return { validationStatus,errorMesseges, fieldValues, validateFormData }
-
+  return { validationStatus, errorMesseges, errorStatus, fieldValues, validateFormData  }
 }
 
 export default useFormValidateHook

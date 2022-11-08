@@ -12,67 +12,64 @@ import { minWidth } from '@mui/system'
 import useFormValidateHook from '../.././src/hooks/useFormValidateHook'
 import InputAdornment from '@mui/material/InputAdornment'
 import Typography from '@mui/material/Typography'
+import { addNewEmployeeRecord } from '../../services/restservices'
 import {
   Employee,
   messegeTypes,
   FormData,
 } from '../../src/types/employeeDataTypes'
-
-// export type formData = {
-// firstName: string,
-// lastName: string,
-// gender: string,
-// number: string,
-// email: string,
-// }
+import FormTemplate from '../../src/components/commons/FormTemplate'
 
 const AddNewEmployee = () => {
   const [gender, setGender] = useState('F')
-  // const [fieldError, setFieldError] = useState(false)
   const [firstname, setfirstName] = useState('')
   const [lastname, setlastName] = useState('')
   const [number, setPhone] = useState<number>(0)
   const [email, setEmail] = useState('')
+  const [photo, setPhoto] = useState('')
 
-  const { validationStatus, errorMesseges, fieldValues, validateFormData } =
-    useFormValidateHook()
-  // console.log('object keys',Object.keys(errorMesseges)[0])
 
-  console.log('errorMesseges here:', errorMesseges)
+const newEmployeeObj:Employee = {
+  id: '',
+  firstname: '',
+  lastname: '',
+  email: '',
+  number: '',
+  gender: 'M',
+  photo: '',
+}
 
+  const { validationStatus, errorMesseges, fieldValues, validateFormData } = useFormValidateHook()
+  
   useEffect(() => {}, [])
 
-  const addNewEmployeeRecord = async (fieldValues?: FormData) => {
+  // const addNewEmployeeRecord = async (fieldValues?: FormData) => {    
+  //   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Access-Control-Allow-Origin': '*',
+  //     },
+  //     body: JSON.stringify(fieldValues),
+  //   })
+  // }
 
-    
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
-      body: JSON.stringify(fieldValues),
-    })
-  }
+  // const handleChange = (event:any) => {   
+  //   setGender(event?.target.value)
+  // }
 
-  const handleChange = (event:any) => {
-    console.log('gender',gender)
-    setGender(event?.target.value)
-  }
-
-  const onFormSubmit = async () => {
-    validateFormData({ firstname, lastname, gender, number, email })
-    console.log('validation status', validationStatus)
-    if (validationStatus) {
-      await addNewEmployeeRecord(fieldValues)
-    }
-  }
+  // const addNewRecord = async () => {
+  //   validateFormData({ firstname, lastname, gender, number, email, photo })
+  //   console.log('validation status', validationStatus)
+  //   if (validationStatus) {
+  //     await addNewEmployeeRecord(fieldValues)
+  //   }
+  // }
 
   return (
-    <Box>
-      {/* <Box> Add new employee</Box> */}
-     
-        <Box
+    <Box>   
+     <FormTemplate isEdit={false} employee={newEmployeeObj}/>
+        {/* <Box
           sx={{
             width: '100%',
             display: 'flex',
@@ -111,8 +108,7 @@ const AddNewEmployee = () => {
             pb: 4,
           }}
         >
-          {/* <Grid container alignItems="flex-start" spacing={4} columns={16}>
-      <Grid style={{ marginTop: 15 }}  xs={6}>       */}
+         
           <Button
             variant='outlined'
             component='label'
@@ -198,15 +194,15 @@ const AddNewEmployee = () => {
               alignItems: 'center',
             }}
           >
-            <Button variant='contained' onClick={() => onFormSubmit()}>
+            <Button variant='contained' onClick={() => addNewRecord()}>
               Add Record
             </Button>
             <Button variant='outlined'>Cancel</Button>
           </Box>
-          {/* </Grid>
-        </Grid> */}
+        
         </Box>
       </Box>
+       */}
     </Box>
   )
 }

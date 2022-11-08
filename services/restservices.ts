@@ -1,4 +1,4 @@
-import { Employee } from '../src/types/employeeDataTypes'
+import { Employee, FormData } from '../src/types/employeeDataTypes'
 
 // get all the employees
 export const displayAllEmployees = async () => {
@@ -16,7 +16,7 @@ export const displayAllEmployees = async () => {
 }
 
 //edit employee record
-export const editEmployeeRecord = async (data: Employee, id: string) => {
+export const editEmployeeRecord = async (id: string, data?: Employee, ) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/${id}`, {
     method: 'PUT',
     headers: {
@@ -38,6 +38,18 @@ export const editEmployeeRecord = async (data: Employee, id: string) => {
 //     body: JSON.stringify(data),
 //   })
 // }
+
+
+export const addNewEmployeeRecord = async (fieldValues?: FormData) => {    
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    },
+    body: JSON.stringify(fieldValues),
+  })
+}
 
 //fetch employee by id
 export const getEmployeeById = async (id: number)=>{

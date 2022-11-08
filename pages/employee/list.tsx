@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { displayAllEmployees } from '../../services/restservices'
+import { displayAllEmployees } from '../../services/restServices'
 import { Employee } from '../../src/types/employeeDataTypes'
 import ListCard from '../../src/components/ListCard'
 import GridCard from '../../src/components/GridCard'
@@ -18,17 +18,12 @@ import Typography from '@mui/material/Typography'
 import { useDispatch, useSelector } from 'react-redux'
 import { populateData, selectEmployees } from '../../src/slices/employee'
 
-// type displayLayoutConditions = {
-//   condition:boolean,
-//   wrapper,
-//   children
-// }
-
 const ViewEmployee = () => {
-  // const [employeeDataArr, setEmpDataArr] = useState<Employee[] | any>()
   const [toggleList, setToggleList] = useState(true)
   const dispatch = useDispatch()
-const employeeArray = (useSelector(selectEmployees)).employees.map(empItem=>empItem as Employee)
+  const employeeArray = useSelector(selectEmployees).employees.map(
+    (empItem) => empItem as Employee
+  )
   const getAllEmployees = async () => {
     const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee`, {
       method: 'GET',

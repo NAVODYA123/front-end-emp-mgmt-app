@@ -10,6 +10,8 @@ import {
   MenuItem,
 } from '@mui/material'
 import { useState } from 'react'
+import { editEmployeeRecord, addNewEmployeeRecord } from '../../../services/restservices'
+import useFormValidateHook from '../../hooks/useFormValidateHook'
 import { Employee } from '../../types/employeeDataTypes'
 
 type Props = {
@@ -31,17 +33,20 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
           photo: '',
         }
   )
+  const { validationStatus, errorMesseges, errorStatus, fieldValues, validateFormData } = useFormValidateHook()
 
-  const editEmployeeRecord = async (id: string, data?: Employee) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',       
-      },
-      body: JSON.stringify(data),
-    })
-  }
+  // const editEmployeeRecord = async (id: string, data?: Employee) => {
+  //   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee/${id}`, {
+  //     method: 'PUT',
+  //     headers: {
+  //       'Content-Type': 'application/json',       
+  //     },
+  //     body: JSON.stringify(data),
+  //   })
+  // }
 
+
+console.log('errorStatus',errorStatus?.firstname)
   const onChange = ({ target }: any) => {
     console.log(target.id)
     console.log(target.value)
@@ -57,6 +62,16 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
 
   const onGenderSelect = ({ target }: any) => {
     setEmpRecord({ ...employeeRecord, gender: target.value })
+  }
+
+
+  const addNewRecord = async () => {
+    // validateFormData({ firstname, lastname, gender, number, email, photo })
+    validateFormData({employeeRecord})
+    console.log('validation status', validationStatus)
+    if (validationStatus) {
+      await addNewEmployeeRecord(fieldValues)
+    }
   }
 
   return (
@@ -122,41 +137,47 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
             <input hidden accept='image/*' multiple type='file' />
           </Button>
 
-          <TextField
-            // error={errorMesseges?.firstName.length!==0}
+          <TextField 
+            error={errorStatus?.firstname}         
             sx={{ width: '60%' }}
             required
             id='firstname'
             label='First name'
             variant='standard'
-            defaultValue={employeeRecord?.firstname}
-            // helperText={errorMesseges?.firstName}
+            helperText={errorMesseges?.firstname}
+            defaultValue={employeeRecord?.firstname}        
             onChange={(e) => onChange(e)}
           />
           <TextField
+           error={errorStatus?.lastname} 
             sx={{ width: '60%' }}
             required
             id='lastname'
             label='Last Name'
             variant='standard'
+            helperText={errorMesseges?.lastname}
             defaultValue={employeeRecord?.lastname}
           />
 
           <TextField
+           error={errorStatus?.email} 
             sx={{ width: '60%' }}
             required
             id='email'
             label='Email'
             variant='standard'
+            helperText={errorMesseges?.email}
             defaultValue={employeeRecord?.email}
           />
 
           <TextField
+           error={errorStatus?.number} 
             sx={{ width: '60%' }}
             required
             id='number'
             label='Phone'
             variant='standard'
+            helperText={errorMesseges?.number}
             defaultValue={employeeRecord?.number}
           />
           <FormControl variant='standard' sx={{ m: 1, width: '60%' }}>
@@ -186,14 +207,13 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
               alignItems: 'center',
             }}
           >
-            <Button variant='contained' onClick={(e) => onSubmitForm(e)}>
-              Update Record
+            <Button variant='contained' onClick={(e) => isEdit? onSubmitForm(e): addNewRecord()}>
+              {isEdit?'Update':'Add'} Record
             </Button>
-            {/* onClick={()=>dispatch(decrement())} */}
+          
             <Button variant='outlined'>Cancel</Button>
           </Box>
-          {/* </Grid>
-  </Grid> */}
+       
         </Box>
       </Box>
     </>

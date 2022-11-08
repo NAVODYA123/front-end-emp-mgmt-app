@@ -19,46 +19,9 @@ import { selectEmployees } from '../../../src/slices/employee'
 import Typography from '@mui/material/Typography'
 import FormTemplate from '../../../src/components/commons/FormTemplate'
 
-
-
-// import updateRecord, { testMethod } from '../../.././src/slices/employee'
-// import{RootState} from '../../../src/store/store'
-
-// import { useSelector, useDispatch } from 'react-redux'
-
-// export const getStaticPaths = async () => {
-//   const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee`, {
-//     method: 'GET',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'Access-Control-Allow-Origin': '*',
-//     },
-//   })
-
-//   const data = await result.json()
-//   console.log('data prints',data)
-
-//   const paths = data.map((item: any) => {
-//     return {
-//       params: item.id.toString(),
-//     }
-//   })
-
-//   return {
-//     paths,
-//     fallback:false
-//   }
-// }
-
-
-// export const getStaticProps = async (context:any) =>{
-// const id = context.params.id
-
-// }
-
 const EditEmployeeRecord = () => {
-  const [gender, setGender] = useState('Select gender')
-  const [fieldError, setFieldError] = useState(false)
+  // const [gender, setGender] = useState('Select gender')
+  // const [fieldError, setFieldError] = useState(false)
 
 const router = useRouter()
 
@@ -68,23 +31,6 @@ const employeeArray = (useSelector(selectEmployees)).employees.map(empItem=>empI
 
 const empRecord = employeeArray.find((employee)=> employee.id == id)
 
-console.log({empRecord})
-  const handleChange = (event: SelectChangeEvent) => {
-    setGender(event.target.value)
-  }
-
-  useEffect(() => {}, [])
-
-  const editEmployeeRecord = async (data: Employee, id: string) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
-      body: JSON.stringify(data),
-    })
-  }
 
   return (
     <Box>
