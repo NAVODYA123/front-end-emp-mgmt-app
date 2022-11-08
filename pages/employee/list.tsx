@@ -11,6 +11,9 @@ import Paper from '@mui/material/Paper'
 import Pagination from '@mui/material/Pagination'
 import Grid from '@mui/material/Unstable_Grid2'
 import ConditionalWrapper from '../../src/components/ConditionalWrapper'
+import Fab from '@mui/material/Fab'
+import AddIcon from '@mui/icons-material/Add'
+import Link from 'next/link';
 
 // type displayLayoutConditions = {
 //   condition:boolean,
@@ -68,6 +71,13 @@ const ViewEmployee = () => {
         >
           view all employees page
         </Box>
+        <Box sx={{width:'100%', display:'flex', flexDirection:'row', justifyContent:'flex-end', pr:8}}>
+        <Link href="/employee/add" passHref ><Fab color='primary' aria-label='add'>
+            <AddIcon />
+          </Fab>
+          </Link> 
+        </Box>
+   
         <Box
           sx={{
             width: '90%',
@@ -83,31 +93,28 @@ const ViewEmployee = () => {
             <ViewListIcon />
           </IconButton>
         </Box>
-      
+
         <ConditionalWrapper condition={!toggleList}>
           {employeeDataArr?.map((emp: Employee) => {
-            
             return toggleList ? (
               <Box
-              sx={{
-                width: '100%',
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'center !important',
-                mt: 2,
-                mb: 2,
-              }}
-            >
+                sx={{
+                  width: '100%',
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'center !important',
+                  mt: 2,
+                  mb: 2,
+                }}
+              >
                 <ListCard key={`emp-id-list-${emp.id}`} empData={emp} />
-                </Box>
+              </Box>
             ) : (
-              
               <GridCard key={`emp-id-grid-${emp.id}`} empData={emp} />
-             
             )
           })}
         </ConditionalWrapper>
-       
+
         <Box
           sx={{
             width: '100%',

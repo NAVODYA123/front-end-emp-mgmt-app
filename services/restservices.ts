@@ -28,16 +28,34 @@ export const editEmployeeRecord = async (data: Employee, id: string) => {
 }
 
 //add new employee record
-export const addNewEmployeeRecord = async (data: Employee) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-    },
-    body: JSON.stringify(data),
-  })
+// export const addNewEmployeeRecord = async (data: Employee) => {
+//   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee`, {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       'Access-Control-Allow-Origin': '*',
+//     },
+//     body: JSON.stringify(data),
+//   })
+// }
+
+//fetch employee by id
+export const getEmployeeById = async (id: number)=>{
+  fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    }).then((res)=> res.json())
+    .then((data)=> {
+      console.log('data',data[0]); return JSON.stringify(data)})
+      // console.log('res body',res.status)
+    // return await res.json()
 }
+
+
+
 
 //delete selected employee record
 export const deleteEmplyeeRecord = async (id: string) => {

@@ -17,8 +17,9 @@ import IconButton from '@mui/material/IconButton'
 import Fab from '@mui/material/Fab'
 import Typography from '@mui/material/Typography'
 import MailOutlineRoundedIcon from '@mui/icons-material/MailOutlineRounded'
-import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
-import Tooltip from '@mui/material/Tooltip';
+import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined'
+import Tooltip from '@mui/material/Tooltip'
+import Link from 'next/link'
 
 const GridCard = ({ empData }: Props) => {
   return (
@@ -52,15 +53,13 @@ const GridCard = ({ empData }: Props) => {
             }}
           >
             <IconButton onClick={() => {}}>
-              {/* <Fab color="info" aria-label="add" size='small'> */}
               <DeleteIcon />
-              {/* </Fab> */}
             </IconButton>
-            <IconButton>
-              {/* <Fab color="info" aria-label="add" size='small'> */}
-              <EditRoundedIcon />
-              {/* </Fab> */}
-            </IconButton>
+            <Link href={'/employee/edit/' + empData.id} passHref>
+              <IconButton>
+                <EditRoundedIcon />
+              </IconButton>
+            </Link>
           </CardActions>
           <Avatar
             alt={empData.photo}
@@ -75,15 +74,14 @@ const GridCard = ({ empData }: Props) => {
             }}
           >
             <Box>
-            <Typography variant='h6' sx={{fontWeight: 'bold',}}>
-              <Box style={{}}>{`${empData.firstname}${' '}${
-                empData.lastname
-              }`}</Box>
-            </Typography>
-            
+              <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
+                <Box style={{}}>{`${empData.firstname}${' '}${
+                  empData.lastname
+                }`}</Box>
+              </Typography>
             </Box>
             <Box>
-            {/* <Typography variant='body2'> */}
+              {/* <Typography variant='body2'> */}
               <Box
                 style={{
                   display: 'flex',
@@ -91,18 +89,17 @@ const GridCard = ({ empData }: Props) => {
                   alignItems: 'center',
                 }}
               >
-                <MailOutlineRoundedIcon  fontSize='small' sx={{m:1}}/>
-                <Tooltip title={empData.email} placement="right-end">
-                <Box
-                  style={{
-                    maxWidth: '150px',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                  }}
-                > 
-                  {empData.email}
-                  
-                </Box>
+                <MailOutlineRoundedIcon fontSize='small' sx={{ m: 1 }} />
+                <Tooltip title={empData.email} placement='right-end'>
+                  <Box
+                    style={{
+                      maxWidth: '150px',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    }}
+                  >
+                    {empData.email}
+                  </Box>
                 </Tooltip>
               </Box>
 
@@ -113,12 +110,20 @@ const GridCard = ({ empData }: Props) => {
                   alignItems: 'center',
                 }}
               >
-                <PhoneOutlinedIcon fontSize='small' sx={{m:1}} />
+                <PhoneOutlinedIcon fontSize='small' sx={{ m: 1 }} />
                 <Box>{empData.number}</Box>
               </Box>
 
-              <Box style={{display:'flex', flexDirection:'row', justifyContent:'center'}}>{empData.gender === 'M' ? 'Male' : 'Female'}</Box>
-            {/* </Typography> */}
+              <Box
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                }}
+              >
+                {empData.gender === 'M' ? 'Male' : 'Female'}
+              </Box>
+              {/* </Typography> */}
             </Box>
           </CardContent>
         </Card>

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import Grid from '@mui/material/Unstable_Grid2'
@@ -10,12 +10,54 @@ import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import { minWidth } from '@mui/system'
 
+export const getStaticPaths = async () => {
+  const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    },
+  })
+
+  const data = await result.json()
+
+  const paths = data.map((item: any) => {
+    return {
+      params: item.id.toString(),
+    }
+  })
+
+  return {
+    paths,
+    fallback:false
+  }
+}
+
+
+export const getStaticProps = async (context:any) =>{
+const id = context.params.id
+
+}
+
 const EditEmployeeRecord = () => {
   const [gender, setGender] = useState('Select gender')
   const [fieldError, setFieldError] = useState(false)
 
   const handleChange = (event: SelectChangeEvent) => {
     setGender(event.target.value)
+  }
+
+  useEffect(() => {}, [])
+
+  const editEmployeeRecord = async (data: Employee, id: string) => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+      body: JSON.stringify(data),
+    })
   }
 
   return (
@@ -65,12 +107,14 @@ const EditEmployeeRecord = () => {
           </Button>
 
           <TextField
-            error={fieldError}
+            // error={errorMesseges?.firstName.length!==0}
             sx={{ width: '60%' }}
             required
             id='standard-basic'
-            label='First name'
+            label='Employee Id'
             variant='standard'
+            // helperText={errorMesseges?.firstName}
+            // onChange={(e) => setfirstName(e?.target.value)}
           />
           <TextField
             sx={{ width: '60%' }}

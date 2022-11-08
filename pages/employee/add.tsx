@@ -111,7 +111,7 @@ const AddNewEmployee = () => {
           </Button>
 
           <TextField
-            error={errorMesseges?.firstName.length===0}
+            error={errorMesseges?.firstName.length!==0}
             sx={{ width: '60%' }}
             required
             id='standard-basic'
@@ -121,7 +121,7 @@ const AddNewEmployee = () => {
             onChange={(e) => setfirstName(e?.target.value)}
           />
           <TextField
-           error={errorMesseges?.lastName.length===0}
+           error={errorMesseges?.lastName.length!==0}
             sx={{ width: '60%' }}
             required
             id='standard-basic'
@@ -132,7 +132,7 @@ const AddNewEmployee = () => {
           />
 
           <TextField
-           error={errorMesseges?.email.length===0}
+           error={errorMesseges?.email.length!==0}
             sx={{ width: '60%' }}
             required
             id='standard-basic'
