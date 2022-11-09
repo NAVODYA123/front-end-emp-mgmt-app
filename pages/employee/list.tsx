@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { displayAllEmployees } from '../../services/restServices'
+// import { displayAllEmployees } from '../../services/restServices'
 import { Employee } from '../../src/types/employeeDataTypes'
 import ListCard from '../../src/components/ListCard'
 import GridCard from '../../src/components/GridCard'
@@ -19,9 +19,17 @@ import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined'
 import { useDispatch, useSelector } from 'react-redux'
 import { populateData, selectEmployees } from '../../src/slices/employee'
 import BackButton from '../../src/components/commons/buttons/BackButton'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import Select, { SelectChangeEvent } from '@mui/material/Select'
+import sortEmployeeArray from '../../src/utils/SortEmployeeArray'
+import { Agent } from 'http'
+import { getEmps } from '../../services/restServices'
 
 const ViewEmployee = () => {
   const [toggleList, setToggleList] = useState(true)
+  const [colName, setSortColumn] = useState('lastname')
   const dispatch = useDispatch()
   const employeeArray = useSelector(selectEmployees).employees.map(
     (empItem) => empItem as Employee
@@ -41,6 +49,24 @@ const ViewEmployee = () => {
   useEffect(() => {
     getAllEmployees()
   }, [])
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setSortColumn(event.target.value as string)
+  }
+
+  const sortedEmpArray:Employee[] = sortEmployeeArray(employeeArray, colName)
+
+  console.log('sorted array number', sortedEmpArray)
+
+//   const b = getEmps()
+
+//   b.then((res) => res.json())
+//   .then((data: Employee[] | any) => {
+//  console.log('data returned:', data)
+    
+//   })
+
+//   console.log('b',b)
 
   return (
     <>
@@ -88,6 +114,22 @@ const ViewEmployee = () => {
             justifyContent: 'flex-end',
           }}
         >
+          <FormControl>
+            <InputLabel id='sort-column-name'>colName</InputLabel>
+            <Select
+              labelId='sort-column-name'
+              id='sort-column-name'
+              value={colName}
+              label='colName'
+              onChange={handleChange}
+            >
+              <MenuItem value={'firstname'}>First Name</MenuItem>
+              <MenuItem value={'lastname'}>Last Name</MenuItem>
+              <MenuItem value={'number'}>Phone</MenuItem>
+              <MenuItem value={'id'}>Id</MenuItem>
+              <MenuItem value={'email'}>Email</MenuItem>
+            </Select>
+          </FormControl>
           <IconButton onClick={() => setToggleList(false)}>
             <GridViewIcon />
           </IconButton>
@@ -97,7 +139,7 @@ const ViewEmployee = () => {
         </Box>
 
         <ConditionalWrapper condition={!toggleList}>
-          {employeeArray?.map((emp: Employee) => {
+          {sortedEmpArray?.map((emp: Employee) => {
             return toggleList ? (
               <Box
                 key={emp.id}
