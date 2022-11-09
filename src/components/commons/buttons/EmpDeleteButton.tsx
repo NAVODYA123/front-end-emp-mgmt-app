@@ -1,6 +1,6 @@
 import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
-import { deleteEmplyeeRecord } from '../../../../services/restServices'
+import { deleteEmplyeeRecord } from '../../../../services/deleteEmployeeRecord'
 import { useEffect, useState } from 'react'
 
 type Props = {
