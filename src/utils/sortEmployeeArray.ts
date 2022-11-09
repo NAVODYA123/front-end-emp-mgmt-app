@@ -27,12 +27,11 @@ const sortEmployeeArray = (
       break
     case 'lastname':
       {
-        return (SortedArray = objArray.sort((a, b) => {
+        SortedArray = objArray.sort((a, b) => {
           let x = a.lastname.toLowerCase()
           let y = b.lastname.toLowerCase()
-
           return x > y ? 1 : x < y ? -1 : 0
-        }))
+        })
       }
       break
     case 'id':
@@ -48,7 +47,7 @@ const sortEmployeeArray = (
       SortedArray = objArray.sort((a, b) => {
         let x = Number(a.number)
         let y = Number(b.number)
-
+        
         return x > y ? 1 : x < y ? -1 : 0
       })
     }
