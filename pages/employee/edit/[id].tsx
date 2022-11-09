@@ -29,12 +29,12 @@ const{id} = router.query
 
 const employeeArray = (useSelector(selectEmployees)).employees.map(empItem=>empItem as Employee)
 
-const empRecord = employeeArray.find((employee)=> employee.id == id)
+const empIndex = employeeArray.findIndex((employee)=> employee.id == id)
 
 
   return (
     <Box>
-     <FormTemplate isEdit={true} employee={empRecord}/>
+     <FormTemplate isEdit={true} employee={employeeArray[empIndex]}/>
     </Box>
   )
 }

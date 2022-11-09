@@ -14,6 +14,7 @@ const Header = () => {
         flexDirection: 'row',
         justifyContent: 'flex-start',
         backgroundColor: '#145DA0',
+        boxShadow: '0 2px 2px 1px #535354'
       }}
     >
          <Link href='/'>

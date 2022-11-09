@@ -5,6 +5,7 @@ import {
   messegeTypes,
   ValidationData,
 } from '../types/employeeDataTypes'
+// import isEmail from 'validator/lib/isEmail';
 
 const useFormValidateHook = (): ValidationData => {
   const [errorMesseges, setErrorMesseges] = useState<messegeTypes>()
@@ -14,16 +15,16 @@ const useFormValidateHook = (): ValidationData => {
 
   const validateEmail = (emailData: string) => {
     let errorMessegeValue = ''
-    let returnObject = { messege: '', fieldValue: emailData, valid: true }
-    ///validate email address
+    let returnObject = { messege: '', fieldValue: emailData, valid: false }   
     let regex = new RegExp(
       "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
     )
+    
     if (typeof emailData !== 'string') {
       errorMessegeValue = 'only letters and @ are allowed'
     }
 
-    // else if (regex.test(emailData)) {
+    // else if (!regex.test(emailData)) {
     //   errorMessegeValue = 'invalid email. Please enter a valid email'
     // }
     else if (emailData.length === 0) {
@@ -57,6 +58,7 @@ const useFormValidateHook = (): ValidationData => {
     returnObject.messege = errorMessegeValue
     return returnObject
   }
+
   const validateLastName = (lastname: string) => {
     let errorMessegeValue = ''
     let returnObject = { messege: '', fieldValue: lastname, valid: false }
@@ -77,22 +79,23 @@ const useFormValidateHook = (): ValidationData => {
     return returnObject
   }
 
-  const validatePhone = (number: number) => {
+  const validatePhone = (number:string) => {
     let errorMessegeValue = ''
+    let phoneNumber = typeof number === 'string'? Number(number) : number
     let returnObject = { messege: '', fieldValue: number, valid: false }
 
-    if (typeof number !== 'number' || isNaN(number)) {
+    if (isNaN(phoneNumber)) {
       errorMessegeValue =
         'only numbers are allowed. Phone number should be in the format +94XXXXXXX'
-    } else if (String(number).length === 0) {
+    } else if (String(phoneNumber).length === 0) {
       errorMessegeValue = 'phone number cannot be empty'
-    } else if (String(number).length !== 9) {
+    } else if (String(phoneNumber).length !== 9) {
       errorMessegeValue =
         'A valid phone number should have 9 digits excluding the 0'
     } else {
       errorMessegeValue = ''
       returnObject.valid = true
-      returnObject.fieldValue = Number(`+94${returnObject.fieldValue}`)
+      returnObject.fieldValue = `+94${returnObject.fieldValue}`
       console.log('returnObject.fieldValue', returnObject.fieldValue)
     }
     returnObject.messege = errorMessegeValue

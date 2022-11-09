@@ -16,18 +16,18 @@ export const displayAllEmployees = async () => {
 }
 
 //edit employee record
-export const editEmployeeRecord = async (id: string, data?: Employee, ) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-    },
-    body: JSON.stringify(data),
-  })
-}
+// export const editEmployeeRecord = async (id: string, data?: Employee, ) => {
+//   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/${id}`, {
+//     method: 'PUT',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       'Access-Control-Allow-Origin': '*',
+//     },
+//     body: JSON.stringify(data),
+//   })
+// }
 
-//add new employee record
+//add new employee record// previous version
 // export const addNewEmployeeRecord = async (data: Employee) => {
 //   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee`, {
 //     method: 'POST',
@@ -71,12 +71,12 @@ export const getEmployeeById = async (id: number)=>{
 
 //delete selected employee record
 export const deleteEmplyeeRecord = async (id: string) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/${id}`, {
+  console.log('api call reached')
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
-    },
-    body: JSON.stringify(id),
-  })
+    },   
+  }).then((response) => response.json())
 }

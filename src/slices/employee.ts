@@ -3,7 +3,6 @@ import { Employee } from '../types/employeeDataTypes'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { AppState } from '../store/store'
 
-// const initialState:Employee[]  = []
 
 const employeeSlice = createSlice({
     name: "employeeData",
@@ -13,18 +12,17 @@ const employeeSlice = createSlice({
         populateData: (state, action) => {
             console.log('state', state);
             state.employees = action.payload
-            // state.employeeArray
+          
         },
         updateRecord: (state, action: PayloadAction) => {
             console.log('data sent', action.payload)
-            // state.employeeArray
+        
         },
         testMethod() {
             console.log('method working')
-        }
+        },       
 
     }
-
 })
 
 export const { populateData, updateRecord, testMethod } = employeeSlice.actions;

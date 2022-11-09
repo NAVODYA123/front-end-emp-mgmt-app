@@ -9,48 +9,29 @@ import {
   Select,
   MenuItem,
 } from '@mui/material'
-import { useState } from 'react'
-import { editEmployeeRecord, addNewEmployeeRecord } from '../../../services/restservices'
+import { ChangeEvent, useState } from 'react'
+import { addNewEmployeeRecord } from '../../../services/addNewEmployeeRecord'
+import { editEmployeeRecord } from '../../../services/editEmployeeRecord'
 import useFormValidateHook from '../../hooks/useFormValidateHook'
 import { Employee } from '../../types/employeeDataTypes'
 
 type Props = {
   isEdit: boolean
-  employee?: Employee
+  employee: Employee
 }
 
 const FormTemplate = ({ isEdit, employee }: Props) => {
   const [employeeRecord, setEmpRecord] = useState(
-    isEdit
-      ? employee
-      : {
-          id: '',
-          firstname: '',
-          lastname: '',
-          email: '',
-          number: '',
-          gender: 'M',
-          photo: '',
-        }
+    employee
+     
   )
   const { validationStatus, errorMesseges, errorStatus, fieldValues, validateFormData } = useFormValidateHook()
 
-  // const editEmployeeRecord = async (id: string, data?: Employee) => {
-  //   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee/${id}`, {
-  //     method: 'PUT',
-  //     headers: {
-  //       'Content-Type': 'application/json',       
-  //     },
-  //     body: JSON.stringify(data),
-  //   })
-  // }
-
-
-console.log('errorStatus',errorStatus?.firstname)
-  const onChange = ({ target }: any) => {
+  console.log('errorStatus',errorStatus?.firstname)
+  const onChange = ({ target }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     console.log(target.id)
     console.log(target.value)
-    setEmpRecord({ ...employeeRecord, [target.id]: target.value })
+    setEmpRecord({ ...employeeRecord,[target.id]: target.value  })
 
     console.log({ employeeRecord })
   }
@@ -65,8 +46,7 @@ console.log('errorStatus',errorStatus?.firstname)
   }
 
 
-  const addNewRecord = async () => {
-    // validateFormData({ firstname, lastname, gender, number, email, photo })
+  const addNewRecord = async () => {   
     validateFormData({employeeRecord})
     console.log('validation status', validationStatus)
     if (validationStatus) {
@@ -121,16 +101,15 @@ console.log('errorStatus',errorStatus?.firstname)
             pb: 4,
           }}
         >
-          {/* <Grid container alignItems="flex-start" spacing={4} columns={16}>
-<Grid style={{ marginTop: 15 }}  xs={6}>       */}
+          
           <Button
             variant='outlined'
             component='label'
             sx={{ height: '120px', width: '120px', borderRadius: '50%' }}
           >
             <Avatar
-              alt=''
-              src=''
+              alt='Click to add photo'
+              src={isEdit?employeeRecord?.photo : ''}	
               sx={{ width: 100, height: 100 }}
               variant='circular'
             />

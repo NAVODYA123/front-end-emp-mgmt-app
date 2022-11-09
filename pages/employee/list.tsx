@@ -15,6 +15,7 @@ import Fab from '@mui/material/Fab'
 import AddIcon from '@mui/icons-material/Add'
 import Link from 'next/link'
 import Typography from '@mui/material/Typography'
+import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined'
 import { useDispatch, useSelector } from 'react-redux'
 import { populateData, selectEmployees } from '../../src/slices/employee'
 
@@ -33,14 +34,13 @@ const ViewEmployee = () => {
     })
       .then((res) => res.json())
       .then((data: Employee[] | any) => {
-        // setEmpDataArr(data)
         dispatch(populateData(data))
       })
   }
   useEffect(() => {
     getAllEmployees()
   }, [])
-  // console.log('employee', employeeDataArr)
+
   return (
     <>
       <Box sx={{}}>
@@ -124,9 +124,22 @@ const ViewEmployee = () => {
             flexDirection: 'row',
             justifyContent: 'center !important',
           }}
-        >
-          <Pagination count={5} size='large' color='primary' />
-        </Box>
+        ></Box>
+
+        <Link href='/' passHref>
+          <Fab
+            sx={{
+              background: 'black',
+              color: 'white',
+              '&hover': {
+                boxShadow: 12,
+              },
+            }}
+            aria-label='add'
+          >
+            <ArrowBackOutlinedIcon />
+          </Fab>
+        </Link>
       </Box>
     </>
   )

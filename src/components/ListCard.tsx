@@ -12,6 +12,8 @@ import EditRoundedIcon from '@mui/icons-material/EditRounded'
 import { shadows } from '@mui/system'
 import IconButton from '@mui/material/IconButton'
 import Link from 'next/link'
+import EmpEditButton from './commons/buttons/EmpEditButton'
+import EmpDeleteButton from './commons/buttons/EmpDeleteButton'
 
 const ListCard = ({ empData }: Props) => {
   return (
@@ -25,9 +27,9 @@ const ListCard = ({ empData }: Props) => {
         borderRadius: '8px',
         boxShadow: 2,
         alignItems: 'center',
-        '&:hover':{
+        '&:hover': {
           boxShadow: 8,
-        }
+        },
       }}
     >
       <Box sx={{ width: '10%' }}>
@@ -39,17 +41,20 @@ const ListCard = ({ empData }: Props) => {
       <Box sx={{ width: '10%' }}>{empData.lastname}</Box>
       <Box sx={{ width: '20%' }}>{empData.email}</Box>
       <Box sx={{ width: '10%' }}>{empData.number}</Box>
-      <Box sx={{ width: '10%' }}>{empData.gender ==='M' ? 'Male' : 'Female'}</Box>
       <Box sx={{ width: '10%' }}>
-
-      <IconButton>
-        <DeleteIcon fontSize="medium"/>
-        </IconButton>
-        <Link href={"/employee/edit/"+ empData.id} passHref >
-        <IconButton >
-        <EditRoundedIcon fontSize="medium"/>
-        </IconButton>
-        </Link>
+        {empData.gender === 'M' ? 'Male' : 'Female'}
+      </Box>
+      <Box sx={{ width: '10%' }}>
+        {/* <IconButton>
+            <DeleteIcon fontSize='medium' />
+          </IconButton> */}
+        <EmpDeleteButton empId={empData.id} />
+        <EmpEditButton empId={empData.id} />
+        {/* <Link href={'/employee/edit/' + empData.id} passHref>
+          <IconButton>
+            <EditRoundedIcon fontSize='medium' />
+          </IconButton>
+        </Link> */}
       </Box>
     </Box>
   )

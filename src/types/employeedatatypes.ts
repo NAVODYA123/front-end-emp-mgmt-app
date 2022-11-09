@@ -12,7 +12,7 @@ export type FormData = {
   firstname: string,
   lastname: string,
   gender: string,
-  number: number,
+  number: string,
   email: string,
   photo: string
 }
