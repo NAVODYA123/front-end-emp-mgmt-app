@@ -18,6 +18,7 @@ import { useSelector } from 'react-redux'
 import { selectEmployees } from '../../../src/slices/employee'
 import Typography from '@mui/material/Typography'
 import FormTemplate from '../../../src/components/commons/FormTemplate'
+import BackButton from '../../../src/components/commons/buttons/BackButton'
 
 const EditEmployeeRecord = () => {
   // const [gender, setGender] = useState('Select gender')
@@ -35,6 +36,7 @@ const empIndex = employeeArray.findIndex((employee)=> employee.id == id)
   return (
     <Box>
      <FormTemplate isEdit={true} employee={employeeArray[empIndex]}/>
+     <BackButton navigationLink={'/employee/list'} />
     </Box>
   )
 }

@@ -18,6 +18,7 @@ import Typography from '@mui/material/Typography'
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined'
 import { useDispatch, useSelector } from 'react-redux'
 import { populateData, selectEmployees } from '../../src/slices/employee'
+import BackButton from '../../src/components/commons/buttons/BackButton'
 
 const ViewEmployee = () => {
   const [toggleList, setToggleList] = useState(true)
@@ -125,21 +126,7 @@ const ViewEmployee = () => {
             justifyContent: 'center !important',
           }}
         ></Box>
-
-        <Link href='/' passHref>
-          <Fab
-            sx={{
-              background: 'black',
-              color: 'white',
-              '&hover': {
-                boxShadow: 12,
-              },
-            }}
-            aria-label='add'
-          >
-            <ArrowBackOutlinedIcon />
-          </Fab>
-        </Link>
+        <BackButton navigationLink={'/'} />
       </Box>
     </>
   )

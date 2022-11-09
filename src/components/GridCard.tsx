@@ -20,6 +20,8 @@ import MailOutlineRoundedIcon from '@mui/icons-material/MailOutlineRounded'
 import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined'
 import Tooltip from '@mui/material/Tooltip'
 import Link from 'next/link'
+import EmpDeleteButton from './commons/buttons/EmpDeleteButton'
+import EmpEditButton from './commons/buttons/EmpEditButton'
 
 const GridCard = ({ empData }: Props) => {
   return (
@@ -37,14 +39,7 @@ const GridCard = ({ empData }: Props) => {
             },
           }}
         >
-          {/* <CardMedia
-        component="img"
-        height="250"
-        image={empData.photo}
-        alt={empData.photo}       
-       
-      /> */}
-          <CardActions
+         <CardActions
             sx={{
               width: '100%',
               display: 'flex',
@@ -52,14 +47,8 @@ const GridCard = ({ empData }: Props) => {
               justifyContent: 'flex-end',
             }}
           >
-            <IconButton onClick={() => {}}>
-              <DeleteIcon />
-            </IconButton>
-            <Link href={'/employee/edit/' + empData.id} passHref>
-              <IconButton>
-                <EditRoundedIcon />
-              </IconButton>
-            </Link>
+            <EmpDeleteButton empId={empData.id} />
+            <EmpEditButton empId={empData.id} />
           </CardActions>
           <Avatar
             alt={empData.photo}
@@ -81,7 +70,6 @@ const GridCard = ({ empData }: Props) => {
               </Typography>
             </Box>
             <Box>
-              {/* <Typography variant='body2'> */}
               <Box
                 style={{
                   display: 'flex',
@@ -123,7 +111,6 @@ const GridCard = ({ empData }: Props) => {
               >
                 {empData.gender === 'M' ? 'Male' : 'Female'}
               </Box>
-              {/* </Typography> */}
             </Box>
           </CardContent>
         </Card>
