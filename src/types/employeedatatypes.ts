@@ -17,14 +17,6 @@ export type FormData = {
   photo: string
 }
 
-export type FormEntry = {
-  firstname: string
-  lastname: string
-  email: string
-  number: string
-  gender: string  
-}
-
 export type messegeTypes = {
   firstname: string,
   lastname: string,
