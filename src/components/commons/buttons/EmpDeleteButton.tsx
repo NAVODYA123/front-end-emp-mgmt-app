@@ -1,7 +1,4 @@
 import IconButton from '@mui/material/IconButton'
-import EditRoundedIcon from '@mui/icons-material/EditRounded'
-import Link from 'next/link'
-import { Employee } from '../../../types/employeeDataTypes'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { deleteEmplyeeRecord } from '../../../../services/restServices'
 import { useEffect, useState } from 'react'
