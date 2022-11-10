@@ -1,5 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react'
-// import { displayAllEmployees } from '../../services/restServices'
+import { useEffect, useState } from 'react'
 import { Employee } from '../../src/types/employeeDataTypes'
 import ListCard from '../../src/components/ListCard'
 import GridCard from '../../src/components/GridCard'
@@ -7,15 +6,11 @@ import IconButton from '@mui/material/IconButton'
 import GridViewIcon from '@mui/icons-material/GridView'
 import ViewListIcon from '@mui/icons-material/ViewList'
 import Box from '@mui/material/Box'
-import Paper from '@mui/material/Paper'
-import Pagination from '@mui/material/Pagination'
-import Grid from '@mui/material/Unstable_Grid2'
 import ConditionalWrapper from '../../src/components/ConditionalWrapper'
 import Fab from '@mui/material/Fab'
 import AddIcon from '@mui/icons-material/Add'
 import Link from 'next/link'
 import Typography from '@mui/material/Typography'
-import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined'
 import { useDispatch, useSelector } from 'react-redux'
 import { populateData, selectEmployees } from '../../src/slices/employee'
 import BackButton from '../../src/components/commons/buttons/BackButton'
@@ -25,13 +20,16 @@ import FormControl from '@mui/material/FormControl'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import sortEmployeeArray from '../../src/utils/sortEmployeeArray'
 import Stack from '@mui/material/Stack'
-import Switch, { SwitchProps } from '@mui/material/Switch'
-import { getEmps } from '../../services/restServices'
+import Switch from '@mui/material/Switch'
+import { TextField } from '@mui/material'
+import searchEmployeeArray from '../../src/utils/searchEmployeeArray'
 
 const ViewEmployee = () => {
   const [toggleList, setToggleList] = useState(true)
   const [colName, setSortColumn] = useState('lastname')
   const [sortOrder, setSortOrder] = useState(false)
+  const [sortedList, setSortedList]=useState<Employee>() 
+  
 
   const dispatch = useDispatch()
   const employeeArray = useSelector(selectEmployees).employees.map(
@@ -54,7 +52,7 @@ const ViewEmployee = () => {
     getAllEmployees()
   }, [])
 
-  let sortedEmpArray: Employee[] =employeeArray
+  let sortedEmpArray: Employee[] = employeeArray
   const handleChange = (event: SelectChangeEvent) => {
     setSortColumn(event.target.value as string)
     sortedEmpArray= sortEmployeeArray(employeeArray, colName,sortOrder)
@@ -67,6 +65,14 @@ const ViewEmployee = () => {
     dispatch(populateData(sortedEmpArray))
     
   }
+
+  const handleSearch= ({target}:any)=>{
+    let sortVal = String(target.value).toLocaleLowerCase()
+    let result = searchEmployeeArray(employeeArray,sortVal)
+  }
+
+  
+
 
    return (
     <>
@@ -114,6 +120,14 @@ const ViewEmployee = () => {
             justifyContent: 'flex-end',
           }}
         >
+
+       <TextField
+          id="standard-search"
+          label="Search field"
+          type="search"
+          variant="standard"
+          onChange={(e)=> handleSearch(e)}
+        />
           <Box
             sx={{
               width: '40%',
