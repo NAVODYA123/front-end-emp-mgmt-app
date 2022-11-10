@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 // import { displayAllEmployees } from '../../services/restServices'
 import { Employee } from '../../src/types/employeeDataTypes'
 import ListCard from '../../src/components/ListCard'
@@ -23,13 +23,16 @@ import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
-import sortEmployeeArray from '../../src/utils/SortEmployeeArray'
-import { Agent } from 'http'
+import sortEmployeeArray from '../../src/utils/sortEmployeeArray'
+import Stack from '@mui/material/Stack'
+import Switch, { SwitchProps } from '@mui/material/Switch'
 import { getEmps } from '../../services/restServices'
 
 const ViewEmployee = () => {
   const [toggleList, setToggleList] = useState(true)
   const [colName, setSortColumn] = useState('lastname')
+  const [sortOrder, setSortOrder] = useState(false)
+
   const dispatch = useDispatch()
   const employeeArray = useSelector(selectEmployees).employees.map(
     (empItem) => empItem as Employee
@@ -44,31 +47,28 @@ const ViewEmployee = () => {
       .then((res) => res.json())
       .then((data: Employee[] | any) => {
         dispatch(populateData(data))
-      })
+      }) 
+          
   }
   useEffect(() => {
     getAllEmployees()
   }, [])
 
+  let sortedEmpArray: Employee[] =employeeArray
   const handleChange = (event: SelectChangeEvent) => {
     setSortColumn(event.target.value as string)
+    sortedEmpArray= sortEmployeeArray(employeeArray, colName,sortOrder)
+    dispatch(populateData(sortedEmpArray))
   }
 
-  const sortedEmpArray:Employee[] = sortEmployeeArray(employeeArray, colName)
-
-  console.log('sorted array number', sortedEmpArray)
-
-//   const b = getEmps()
-
-//   b.then((res) => res.json())
-//   .then((data: Employee[] | any) => {
-//  console.log('data returned:', data)
+  const handleSort = () => {
+    setSortOrder(!sortOrder)
+    sortedEmpArray=sortEmployeeArray(employeeArray, colName,sortOrder)
+    dispatch(populateData(sortedEmpArray))
     
-//   })
+  }
 
-//   console.log('b',b)
-
-  return (
+   return (
     <>
       <Box sx={{}}>
         <Box
@@ -114,28 +114,45 @@ const ViewEmployee = () => {
             justifyContent: 'flex-end',
           }}
         >
-          <FormControl>
-            <InputLabel id='sort-column-name'>colName</InputLabel>
-            <Select
-              labelId='sort-column-name'
-              id='sort-column-name'
-              value={colName}
-              label='colName'
-              onChange={handleChange}
-            >
-              <MenuItem value={'firstname'}>First Name</MenuItem>
-              <MenuItem value={'lastname'}>Last Name</MenuItem>
-              <MenuItem value={'number'}>Phone</MenuItem>
-              <MenuItem value={'id'}>Id</MenuItem>
-              <MenuItem value={'email'}>Email</MenuItem>
-            </Select>
-          </FormControl>
-          <IconButton onClick={() => setToggleList(false)}>
-            <GridViewIcon />
-          </IconButton>
-          <IconButton onClick={() => setToggleList(true)}>
-            <ViewListIcon />
-          </IconButton>
+          <Box
+            sx={{
+              width: '40%',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-evenly',
+            }}
+          >
+            <Stack direction='row' spacing={1} alignItems='center'>
+              <Typography>Z-A</Typography>
+              <Switch              
+                onChange={handleSort}
+              />
+              <Typography>A-Z</Typography>
+            </Stack>
+
+            <FormControl>
+              <InputLabel id='sort-column-name'>Column Name</InputLabel>
+              <Select          
+                labelId='sort-column-name'
+                id='sort-column-name'
+                value={colName}
+                label='colName'
+                onChange={handleChange}
+              >
+                <MenuItem value={'firstname'}>First Name</MenuItem>
+                <MenuItem value={'lastname'}>Last Name</MenuItem>
+                <MenuItem value={'number'}>Phone</MenuItem>
+                <MenuItem value={'id'}>Id</MenuItem>
+                <MenuItem value={'email'}>Email</MenuItem>
+              </Select>
+            </FormControl>
+            <IconButton onClick={() => setToggleList(false)}>
+              <GridViewIcon />
+            </IconButton>
+            <IconButton onClick={() => setToggleList(true)}>
+              <ViewListIcon />
+            </IconButton>
+          </Box>
         </Box>
 
         <ConditionalWrapper condition={!toggleList}>
