@@ -69,6 +69,7 @@ const ViewEmployee = () => {
   const handleSearch= ({target}:any)=>{
     let sortVal = String(target.value).toLocaleLowerCase()
     let result = searchEmployeeArray(employeeArray,sortVal)
+    sortedEmpArray=result
   }
 
   
@@ -114,44 +115,41 @@ const ViewEmployee = () => {
 
         <Box
           sx={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+          }}
+        >
+    
+   
+          <Box sx={{
             width: '90%',
             display: 'flex',
             flexDirection: 'row',
-            justifyContent: 'flex-end',
-          }}
-        >
-
-       <TextField
+            justifyContent: 'space-between',
+          }}>
+             <Box sx={{
+            width: '60%',
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+          }}>
+            <TextField
           id="standard-search"
           label="Search field"
           type="search"
-          variant="standard"
+          variant="outlined"
           onChange={(e)=> handleSearch(e)}
+          sx={{width:'60%'}}
         />
-          <Box
-            sx={{
-              width: '40%',
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-evenly',
-            }}
-          >
-            <Stack direction='row' spacing={1} alignItems='center'>
-              <Typography>Z-A</Typography>
-              <Switch              
-                onChange={handleSort}
-              />
-              <Typography>A-Z</Typography>
-            </Stack>
-
-            <FormControl>
-              <InputLabel id='sort-column-name'>Column Name</InputLabel>
+          <FormControl>
               <Select          
                 labelId='sort-column-name'
                 id='sort-column-name'
                 value={colName}
-                label='colName'
                 onChange={handleChange}
+                sx={{width: '150px'}}
               >
                 <MenuItem value={'firstname'}>First Name</MenuItem>
                 <MenuItem value={'lastname'}>Last Name</MenuItem>
@@ -160,12 +158,33 @@ const ViewEmployee = () => {
                 <MenuItem value={'email'}>Email</MenuItem>
               </Select>
             </FormControl>
+            <Stack direction='row' spacing={1} alignItems='center'>
+              <Typography>Z-A</Typography>
+              <Switch              
+                onChange={handleSort}
+              />
+              <Typography>A-Z</Typography>
+            </Stack>
+
+           </Box>
+          <Box
+            sx={{
+              width: '10%',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-evenly',
+            }}
+          >
+           
+
+          
             <IconButton onClick={() => setToggleList(false)}>
               <GridViewIcon />
             </IconButton>
             <IconButton onClick={() => setToggleList(true)}>
               <ViewListIcon />
             </IconButton>
+          </Box>
           </Box>
         </Box>
 

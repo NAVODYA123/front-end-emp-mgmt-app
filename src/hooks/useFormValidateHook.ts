@@ -6,6 +6,9 @@ import {
   ValidationData,
 } from '../types/employeeDataTypes'
 // import isEmail from 'validator/lib/isEmail';
+import * as EmailValidator from 'email-validator';
+import isEmail from 'validator/lib/isEmail';
+import validator from 'validator';
 
 const useFormValidateHook = (): ValidationData => {
   const [errorMesseges, setErrorMesseges] = useState<messegeTypes>()
@@ -16,14 +19,16 @@ const useFormValidateHook = (): ValidationData => {
   const validateEmail = (emailData: string) => {
     let errorMessegeValue = ''
     let returnObject = { messege: '', fieldValue: emailData, valid: false }   
-    let regex = new RegExp(
-      "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
-    )
-    
+    // let regex = new RegExp(
+    //   "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
+    // )
+    const emailValidationStatus= isEmail(emailData)
+    console.log(emailValidationStatus)
+
     if (typeof emailData !== 'string') {
       errorMessegeValue = 'only letters and @ are allowed'
     }
-
+   
     // else if (!regex.test(emailData)) {
     //   errorMessegeValue = 'invalid email. Please enter a valid email'
     // }
@@ -33,7 +38,7 @@ const useFormValidateHook = (): ValidationData => {
       errorMessegeValue = ''
       returnObject.valid = true
     }
-    console.log('regex.test(submittedData.email)', regex.test(emailData))
+    // console.log('regex.test(submittedData.email)', regex.test(emailData))
     returnObject.messege = errorMessegeValue
     return returnObject
   }
