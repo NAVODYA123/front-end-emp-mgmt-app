@@ -12,8 +12,9 @@ import {
 import { ChangeEvent, useState } from 'react'
 import { addNewEmployeeRecord } from '../../../services/addNewEmployeeRecord'
 import { editEmployeeRecord } from '../../../services/editEmployeeRecord'
-import useFormValidateHook from '../../hooks/useFormValidateHook'
 import { Employee } from '../../types/employeeDataTypes'
+import Link from 'next/link'
+import useValidations from '../../hooks/useValidations'
 
 type Props = {
   isEdit: boolean
@@ -22,18 +23,15 @@ type Props = {
 
 const FormTemplate = ({ isEdit, employee }: Props) => {
   const [employeeRecord, setEmpRecord] = useState(
-    employee
-     
+    employee     
   )
-  const { validationStatus, errorMesseges, errorStatus, fieldValues, validateFormData } = useFormValidateHook()
+  const { validationStatus, errorMesseges, errorStatus, validateFormData } = useValidations()
 
   console.log('errorStatus',errorStatus?.firstname)
   const onChange = ({ target }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     console.log(target.id)
     console.log(target.value)
     setEmpRecord({ ...employeeRecord,[target.id]: target.value  })
-
-    console.log({ employeeRecord })
   }
 
   const onSubmitForm = (event: any) => {
@@ -42,15 +40,18 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
   }
 
   const onGenderSelect = ({ target }: any) => {
+    console.log(' target.value', target.value)
     setEmpRecord({ ...employeeRecord, gender: target.value })
   }
 
 
-  const addNewRecord = async () => {   
-    validateFormData({employeeRecord})
+  const addNewRecord = async () => {  
+  
+    validateFormData({...employeeRecord})
     console.log('validation status', validationStatus)
+    console.log({errorMesseges, errorStatus,})
     if (validationStatus) {
-      await addNewEmployeeRecord(fieldValues)
+      await addNewEmployeeRecord(employeeRecord)
     }
   }
 
@@ -117,7 +118,7 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
           </Button>
 
           <TextField 
-            error={errorStatus?.firstname}         
+            error={!errorStatus?.firstname}         
             sx={{ width: '60%' }}
             required
             id='firstname'
@@ -128,7 +129,7 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
             onChange={(e) => onChange(e)}
           />
           <TextField
-           error={errorStatus?.lastname} 
+           error={!errorStatus?.lastname} 
             sx={{ width: '60%' }}
             required
             id='lastname'
@@ -136,10 +137,11 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
             variant='standard'
             helperText={errorMesseges?.lastname}
             defaultValue={employeeRecord?.lastname}
+            onChange={(e) => onChange(e)}
           />
 
           <TextField
-           error={errorStatus?.email} 
+           error={!errorStatus?.email} 
             sx={{ width: '60%' }}
             required
             id='email'
@@ -147,10 +149,11 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
             variant='standard'
             helperText={errorMesseges?.email}
             defaultValue={employeeRecord?.email}
+            onChange={(e) => onChange(e)}
           />
 
           <TextField
-           error={errorStatus?.number} 
+           error={!errorStatus?.number} 
             sx={{ width: '60%' }}
             required
             id='number'
@@ -158,6 +161,7 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
             variant='standard'
             helperText={errorMesseges?.number}
             defaultValue={employeeRecord?.number}
+            onChange={(e) => onChange(e)}
           />
           <FormControl variant='standard' sx={{ m: 1, width: '60%' }}>
             <InputLabel id='gender-select-label'>Select a gender</InputLabel>
@@ -189,8 +193,9 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
             <Button variant='contained' onClick={(e) => isEdit? onSubmitForm(e): addNewRecord()}>
               {isEdit?'Update':'Add'} Record
             </Button>
-          
-            <Button variant='outlined'>Cancel</Button>
+            <Link href={'/employee/list'} passHref>          
+            <Button variant='outlined' >Cancel</Button>
+            </Link>
           </Box>
        
         </Box>

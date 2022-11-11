@@ -1,3 +1,4 @@
+import { isEmail } from 'class-validator'
 import { useState } from 'react'
 import {
   ErrorStatusType,
@@ -6,9 +7,9 @@ import {
   ValidationData,
 } from '../types/employeeDataTypes'
 // import isEmail from 'validator/lib/isEmail';
-import * as EmailValidator from 'email-validator';
-import isEmail from 'validator/lib/isEmail';
-import validator from 'validator';
+// import * as EmailValidator from 'email-validator';
+// // import isEmail from 'validator/lib/isEmail';
+// import validator from 'validator';
 
 const useFormValidateHook = (): ValidationData => {
   const [errorMesseges, setErrorMesseges] = useState<messegeTypes>()
@@ -28,10 +29,6 @@ const useFormValidateHook = (): ValidationData => {
     if (typeof emailData !== 'string') {
       errorMessegeValue = 'only letters and @ are allowed'
     }
-   
-    // else if (!regex.test(emailData)) {
-    //   errorMessegeValue = 'invalid email. Please enter a valid email'
-    // }
     else if (emailData.length === 0) {
       errorMessegeValue = 'Email name cannot be empty'
     } else {
@@ -46,6 +43,7 @@ const useFormValidateHook = (): ValidationData => {
   const validateFirstName = (firstname: string) => {
     let errorMessegeValue = ''
     let returnObject = { messege: '', fieldValue: firstname, valid: false }
+    console.log('firstnamevalue',firstname)
     ////first name
     if (typeof firstname !== 'string') {
       errorMessegeValue = 'only letters are allowed'

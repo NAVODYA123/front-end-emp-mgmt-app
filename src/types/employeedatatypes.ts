@@ -17,7 +17,7 @@ export type FormData = {
   photo: string
 }
 
-export type messegeTypes = {
+export type MessegeTypes = {
   firstname: string,
   lastname: string,
   number: string,
@@ -27,9 +27,8 @@ export type messegeTypes = {
 
 export type ValidationData = {
   validationStatus:boolean,
-  errorMesseges?: messegeTypes,
-  errorStatus?:ErrorStatusType,
-  fieldValues?: FormData,
+  errorMesseges: MessegeTypes,
+  errorStatus:ErrorStatusType, 
   validateFormData: Function  
 }
 

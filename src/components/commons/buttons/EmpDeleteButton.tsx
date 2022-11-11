@@ -2,7 +2,7 @@ import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { deleteEmplyeeRecord } from '../../../../services/deleteEmployeeRecord'
 import { useEffect, useState } from 'react'
-import ConfirmDelete from '../ConfirmDelete'
+import ConfirmDelete from '../ConfirmDeleteModal'
 
 type Props = {
   empId: string

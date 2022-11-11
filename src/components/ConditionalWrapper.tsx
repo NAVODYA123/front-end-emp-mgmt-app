@@ -15,6 +15,7 @@ const ConditionalWrapper = ({ condition, children }: Props) => {
         width: '100%',
         display: 'flex !important',
         justifyContent: 'center !important',
+        mt:4
       }}
     >
       <Grid width='90%' container spacing={4} columns={16}>

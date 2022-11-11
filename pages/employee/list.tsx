@@ -128,7 +128,7 @@ const ViewEmployee = () => {
                 width: '60%',
                 display: 'flex',
                 flexDirection: 'row',
-                justifyContent: 'flex-start',
+                justifyContent: 'space-between',
               }}
             >
               <TextField
