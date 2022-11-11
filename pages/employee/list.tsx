@@ -28,8 +28,7 @@ const ViewEmployee = () => {
   const [toggleList, setToggleList] = useState(true)
   const [colName, setSortColumn] = useState('lastname')
   const [sortOrder, setSortOrder] = useState(false)
-  const [sortedList, setSortedList]=useState<Employee>() 
-  
+  const [sortedList, setSortedList] = useState<Employee>()
 
   const dispatch = useDispatch()
   const employeeArray = useSelector(selectEmployees).employees.map(
@@ -45,8 +44,7 @@ const ViewEmployee = () => {
       .then((res) => res.json())
       .then((data: Employee[] | any) => {
         dispatch(populateData(data))
-      }) 
-          
+      })
   }
   useEffect(() => {
     getAllEmployees()
@@ -55,27 +53,23 @@ const ViewEmployee = () => {
   let sortedEmpArray: Employee[] = employeeArray
   const handleChange = (event: SelectChangeEvent) => {
     setSortColumn(event.target.value as string)
-    sortedEmpArray= sortEmployeeArray(employeeArray, colName,sortOrder)
+    sortedEmpArray = sortEmployeeArray(employeeArray, colName, sortOrder)
     dispatch(populateData(sortedEmpArray))
   }
 
   const handleSort = () => {
     setSortOrder(!sortOrder)
-    sortedEmpArray=sortEmployeeArray(employeeArray, colName,sortOrder)
+    sortedEmpArray = sortEmployeeArray(employeeArray, colName, sortOrder)
     dispatch(populateData(sortedEmpArray))
-    
   }
 
-  const handleSearch= ({target}:any)=>{
+  const handleSearch = ({ target }: any) => {
     let sortVal = String(target.value).toLocaleLowerCase()
-    let result = searchEmployeeArray(employeeArray,sortVal)
-    sortedEmpArray=result
+    let result = searchEmployeeArray(employeeArray, sortVal)
+    sortedEmpArray = result
   }
 
-  
-
-
-   return (
+  return (
     <>
       <Box sx={{}}>
         <Box
@@ -121,70 +115,66 @@ const ViewEmployee = () => {
             justifyContent: 'center',
           }}
         >
-    
-   
-          <Box sx={{
-            width: '90%',
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}>
-             <Box sx={{
-            width: '60%',
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-          }}>
-            <TextField
-          id="standard-search"
-          label="Search field"
-          type="search"
-          variant="outlined"
-          onChange={(e)=> handleSearch(e)}
-          sx={{width:'60%'}}
-        />
-          <FormControl>
-              <Select          
-                labelId='sort-column-name'
-                id='sort-column-name'
-                value={colName}
-                onChange={handleChange}
-                sx={{width: '150px'}}
-              >
-                <MenuItem value={'firstname'}>First Name</MenuItem>
-                <MenuItem value={'lastname'}>Last Name</MenuItem>
-                <MenuItem value={'number'}>Phone</MenuItem>
-                <MenuItem value={'id'}>Id</MenuItem>
-                <MenuItem value={'email'}>Email</MenuItem>
-              </Select>
-            </FormControl>
-            <Stack direction='row' spacing={1} alignItems='center'>
-              <Typography>Z-A</Typography>
-              <Switch              
-                onChange={handleSort}
-              />
-              <Typography>A-Z</Typography>
-            </Stack>
-
-           </Box>
           <Box
             sx={{
-              width: '10%',
+              width: '90%',
               display: 'flex',
               flexDirection: 'row',
-              justifyContent: 'space-evenly',
+              justifyContent: 'space-between',
             }}
           >
-           
-
-          
-            <IconButton onClick={() => setToggleList(false)}>
-              <GridViewIcon />
-            </IconButton>
-            <IconButton onClick={() => setToggleList(true)}>
-              <ViewListIcon />
-            </IconButton>
-          </Box>
+            <Box
+              sx={{
+                width: '60%',
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'flex-start',
+              }}
+            >
+              <TextField
+                id='standard-search'
+                label='Search field'
+                type='search'
+                variant='outlined'
+                onChange={(e) => handleSearch(e)}
+                sx={{ width: '60%' }}
+              />
+              <FormControl>
+                <Select
+                  labelId='sort-column-name'
+                  id='sort-column-name'
+                  value={colName}
+                  onChange={handleChange}
+                  sx={{ width: '150px' }}
+                >
+                  <MenuItem value={'firstname'}>First Name</MenuItem>
+                  <MenuItem value={'lastname'}>Last Name</MenuItem>
+                  <MenuItem value={'number'}>Phone</MenuItem>
+                  <MenuItem value={'id'}>Id</MenuItem>
+                  <MenuItem value={'email'}>Email</MenuItem>
+                </Select>
+              </FormControl>
+              <Stack direction='row' spacing={1} alignItems='center'>
+                <Typography>Z-A</Typography>
+                <Switch onChange={handleSort} />
+                <Typography>A-Z</Typography>
+              </Stack>
+            </Box>
+            <Box
+              sx={{
+                width: '10%',
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-evenly',
+              }}
+            >
+              <IconButton onClick={() => setToggleList(false)}>
+                <GridViewIcon />
+              </IconButton>
+              <IconButton onClick={() => setToggleList(true)}>
+                <ViewListIcon />
+              </IconButton>
+            </Box>
           </Box>
         </Box>
 
