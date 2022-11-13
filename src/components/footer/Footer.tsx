@@ -16,7 +16,7 @@ const Footer = () => {
         boxShadow: '0 -2px 2px 1px #535354',
       }}
     >
-      <CopyrightIcon sx={{color:'primary.contrastText'}} />
+      <CopyrightIcon sx={{ color: 'primary.contrastText' }} />
       <Typography sx={{ color: 'primary.contrastText' }}>
         {' '}
         2022 all rights reserved

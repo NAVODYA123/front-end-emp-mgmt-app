@@ -10,11 +10,13 @@ import {
   MenuItem,
 } from '@mui/material'
 import { ChangeEvent, useState } from 'react'
-import { addNewEmployeeRecord } from '../../../services/addNewEmployeeRecord'
-import { editEmployeeRecord } from '../../../services/editEmployeeRecord'
+import { addNewEmployeeRecord } from '../../services/addNewEmployeeRecord'
+import { editEmployeeRecord } from '../../services/editEmployeeRecord'
 import { Employee } from '../../types/employeeDataTypes'
 import Link from 'next/link'
 import useValidations from '../../hooks/useValidations'
+import { useRouter } from 'next/router'
+import Snackbar from '@mui/material/Snackbar'
 
 type Props = {
   isEdit: boolean
@@ -22,36 +24,65 @@ type Props = {
 }
 
 const FormTemplate = ({ isEdit, employee }: Props) => {
-  const [employeeRecord, setEmpRecord] = useState(
-    employee     
-  )
-  const { validationStatus, errorMesseges, errorStatus, validateFormData } = useValidations()
+  const [employeeRecord, setEmpRecord] = useState(employee)
+  const { validationStatus, errorMesseges, errorStatus, validateFormData } =
+    useValidations()
+  const [snackBar, setSnackbar] = useState({ open: false, messege: '' })
+  const router = useRouter()
 
-  console.log('errorStatus',errorStatus?.firstname)
-  const onChange = ({ target }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    console.log(target.id)
-    console.log(target.value)
-    setEmpRecord({ ...employeeRecord,[target.id]: target.value  })
+  const onChange = ({
+    target,
+  }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setEmpRecord({ ...employeeRecord, [target.id]: target.value })
   }
 
-  const onSubmitForm = (event: any) => {
+  const onUpdateRecord = async (event: any) => {
     event.preventDefault()
-    editEmployeeRecord(`${employeeRecord?.id}`, employeeRecord)
+    await editEmployeeRecord(`${employeeRecord?.id}`, employeeRecord).then(()=>{
+      setSnackbar({
+        open: true,
+        messege: 'Successfully updated',
+      })
+    }).catch((err)=>{
+      setSnackbar({
+        open: true,
+        messege: 'An error occured while updating record',
+      })
+    })
   }
 
   const onGenderSelect = ({ target }: any) => {
-    console.log(' target.value', target.value)
     setEmpRecord({ ...employeeRecord, gender: target.value })
   }
 
+  const handleCloseSnaker = () => {
+    setSnackbar({ open: false, messege: '' })
+    router.push('/employee/list')
+  }
 
-  const addNewRecord = async () => {  
-  
-    validateFormData({...employeeRecord})
-    console.log('validation status', validationStatus)
-    console.log({errorMesseges, errorStatus,})
-    if (validationStatus) {
+  const addNewRecord = async (event: any) => {
+    event.preventDefault()
+    await validateFormData({ ...employeeRecord })
+
+    if (
+      errorStatus.email &&
+      errorStatus.firstname &&
+      errorStatus.lastname &&
+      errorStatus.number
+    ) {
       await addNewEmployeeRecord(employeeRecord)
+        .then(() => {
+           setSnackbar({
+            open: true,
+            messege: 'Successfully added',
+          })
+        })
+        .catch((err) => {
+          setSnackbar({
+            open: true,
+            messege: 'An error occured while adding record',
+          })
+        })
     }
   }
 
@@ -102,7 +133,6 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
             pb: 4,
           }}
         >
-          
           <Button
             variant='outlined'
             component='label'
@@ -110,26 +140,26 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
           >
             <Avatar
               alt='Click to add photo'
-              src={isEdit?employeeRecord?.photo : ''}	
+              src={isEdit ? employeeRecord?.photo : ''}
               sx={{ width: 100, height: 100 }}
               variant='circular'
             />
             <input hidden accept='image/*' multiple type='file' />
           </Button>
 
-          <TextField 
-            error={!errorStatus?.firstname}         
+          <TextField
+            error={!errorStatus?.firstname}
             sx={{ width: '60%' }}
             required
             id='firstname'
             label='First name'
             variant='standard'
             helperText={errorMesseges?.firstname}
-            defaultValue={employeeRecord?.firstname}        
+            defaultValue={employeeRecord?.firstname}
             onChange={(e) => onChange(e)}
           />
           <TextField
-           error={!errorStatus?.lastname} 
+            error={!errorStatus?.lastname}
             sx={{ width: '60%' }}
             required
             id='lastname'
@@ -141,7 +171,7 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
           />
 
           <TextField
-           error={!errorStatus?.email} 
+            error={!errorStatus?.email}
             sx={{ width: '60%' }}
             required
             id='email'
@@ -153,7 +183,7 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
           />
 
           <TextField
-           error={!errorStatus?.number} 
+            error={!errorStatus?.number}
             sx={{ width: '60%' }}
             required
             id='number'
@@ -190,16 +220,24 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
               alignItems: 'center',
             }}
           >
-            <Button variant='contained' onClick={(e) => isEdit? onSubmitForm(e): addNewRecord()}>
-              {isEdit?'Update':'Add'} Record
+            <Button
+              variant='contained'
+              onClick={(e) => (isEdit ? onUpdateRecord(e) : addNewRecord(e))}
+            >
+              {isEdit ? 'Update' : 'Add'} Record
             </Button>
-            <Link href={'/employee/list'} passHref>          
-            <Button variant='outlined' >Cancel</Button>
+            <Link href={'/employee/list'} passHref>
+              <Button variant='outlined'>Cancel</Button>
             </Link>
           </Box>
-       
         </Box>
       </Box>
+      <Snackbar
+        open={snackBar.open}
+        autoHideDuration={2000}
+        onClose={() => handleCloseSnaker()}
+        message={snackBar.messege}
+      />
     </>
   )
 }

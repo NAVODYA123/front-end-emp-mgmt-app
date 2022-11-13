@@ -12,9 +12,12 @@ import AddIcon from '@mui/icons-material/Add'
 import Link from 'next/link'
 import Typography from '@mui/material/Typography'
 import { useDispatch, useSelector } from 'react-redux'
-import { populateData, selectEmployees } from '../../src/slices/employee'
+import {
+  applySearchAndSort,
+  populateData,
+  selectEmployees,
+} from '../../src/slices/employee'
 import BackButton from '../../src/components/commons/buttons/BackButton'
-import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
@@ -28,12 +31,16 @@ const ViewEmployee = () => {
   const [toggleList, setToggleList] = useState(true)
   const [colName, setSortColumn] = useState('lastname')
   const [sortOrder, setSortOrder] = useState(false)
-  const [sortedList, setSortedList] = useState<Employee>()
 
   const dispatch = useDispatch()
   const employeeArray = useSelector(selectEmployees).employees.map(
     (empItem) => empItem as Employee
   )
+
+  const sortedArray = useSelector(selectEmployees).sortedEmpArray.map(
+    (empItem) => empItem as Employee
+  )
+
   const getAllEmployees = async () => {
     const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee`, {
       method: 'GET',
@@ -44,29 +51,36 @@ const ViewEmployee = () => {
       .then((res) => res.json())
       .then((data: Employee[] | any) => {
         dispatch(populateData(data))
+        dispatch(
+          applySearchAndSort(sortEmployeeArray(data, colName, sortOrder))
+        )
       })
   }
   useEffect(() => {
     getAllEmployees()
   }, [])
 
-  let sortedEmpArray: Employee[] = employeeArray
   const handleChange = (event: SelectChangeEvent) => {
     setSortColumn(event.target.value as string)
-    sortedEmpArray = sortEmployeeArray(employeeArray, colName, sortOrder)
-    dispatch(populateData(sortedEmpArray))
+    const sortedResult = sortEmployeeArray(
+      sortedArray,
+      event.target.value,
+      sortOrder
+    )
+    dispatch(applySearchAndSort(sortedResult))
   }
 
   const handleSort = () => {
+    const sortedResult = sortEmployeeArray(sortedArray, colName, !sortOrder)
+    dispatch(applySearchAndSort(sortedResult))
     setSortOrder(!sortOrder)
-    sortedEmpArray = sortEmployeeArray(employeeArray, colName, sortOrder)
-    dispatch(populateData(sortedEmpArray))
   }
 
   const handleSearch = ({ target }: any) => {
     let sortVal = String(target.value).toLocaleLowerCase()
     let result = searchEmployeeArray(employeeArray, sortVal)
-    sortedEmpArray = result
+    result = sortEmployeeArray(result, colName, sortOrder)
+    dispatch(applySearchAndSort(result))
   }
 
   return (
@@ -150,16 +164,21 @@ const ViewEmployee = () => {
                   <MenuItem value={'firstname'}>First Name</MenuItem>
                   <MenuItem value={'lastname'}>Last Name</MenuItem>
                   <MenuItem value={'number'}>Phone</MenuItem>
-                  <MenuItem value={'id'}>Id</MenuItem>
                   <MenuItem value={'email'}>Email</MenuItem>
                 </Select>
               </FormControl>
-              <Box sx={{minWidth:'150px', display:'flex', justifyContent:'center'}}>
-              <Stack direction='row' spacing={1} alignItems='center'>
-                <Typography>Z-A</Typography>
-                <Switch onChange={handleSort} />
-                <Typography>A-Z</Typography>
-              </Stack>
+              <Box
+                sx={{
+                  minWidth: '150px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
+              >
+                <Stack direction='row' spacing={1} alignItems='center'>
+                  <Typography>Z-A</Typography>
+                  <Switch checked={sortOrder} onChange={handleSort} />
+                  <Typography>A-Z</Typography>
+                </Stack>
               </Box>
             </Box>
             <Box
@@ -181,7 +200,7 @@ const ViewEmployee = () => {
         </Box>
 
         <ConditionalWrapper condition={!toggleList}>
-          {sortedEmpArray?.map((emp: Employee) => {
+          {sortedArray?.map((emp: Employee) => {
             return toggleList ? (
               <Box
                 key={emp.id}
@@ -194,10 +213,10 @@ const ViewEmployee = () => {
                   mb: 2,
                 }}
               >
-                <ListCard key={`emp-id-list-${emp.id}`} empData={emp} />
+                <ListCard key={`emp-id-list-${emp.id}`} empData={emp} populateEmployeeList={getAllEmployees}/>
               </Box>
             ) : (
-              <GridCard key={`emp-id-grid-${emp.id}`} empData={emp} />
+              <GridCard key={`emp-id-grid-${emp.id}`} empData={emp} populateEmployeeList={getAllEmployees}/>
             )
           })}
         </ConditionalWrapper>

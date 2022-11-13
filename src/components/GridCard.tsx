@@ -1,7 +1,3 @@
-import type { Employee } from '../types/employeeDataTypes'
-type Props = {
-  empData: Employee
-}
 
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -16,12 +12,13 @@ import Tooltip from '@mui/material/Tooltip'
 import EmpDeleteButton from './commons/buttons/EmpDeleteButton'
 import EmpEditButton from './commons/buttons/EmpEditButton'
 import { ThemeProvider } from '@mui/material/styles'
-import EmpAppTheme from '../../styles/customTheme/empAppTheme'
+import EmpAppTheme from '../../styles/customTheme/EmpAppTheme'
+import type { EmployeeCardProps } from '../types/employeeDataTypes'
 
-const GridCard = ({ empData }: Props) => {
+const GridCard = ({ empData ,populateEmployeeList }: EmployeeCardProps) => {
   return (
-    <ThemeProvider theme={EmpAppTheme}>     
-      <Box sx={{ minWidth:'250px'}}>
+    <ThemeProvider theme={EmpAppTheme}>
+      <Box sx={{ minWidth: '250px' }}>
         <Grid xs={8} md={12} sm={12}>
           <Card
             sx={{
@@ -43,7 +40,7 @@ const GridCard = ({ empData }: Props) => {
                 justifyContent: 'flex-end',
               }}
             >
-              <EmpDeleteButton empId={empData.id} />
+              <EmpDeleteButton populateEmployeeList={populateEmployeeList}  empId={empData.id} />
               <EmpEditButton empId={empData.id} />
             </CardActions>
             <Avatar

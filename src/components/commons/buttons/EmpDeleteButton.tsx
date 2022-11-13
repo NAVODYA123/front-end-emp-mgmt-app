@@ -1,24 +1,25 @@
 import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
-import { deleteEmplyeeRecord } from '../../../../services/deleteEmployeeRecord'
+import { deleteEmplyeeRecord } from '../../../services/deleteEmployeeRecord'
 import { useEffect, useState } from 'react'
 import ConfirmDelete from '../ConfirmDeleteModal'
+import Router, { useRouter } from 'next/router'
+import Snackbar from '@mui/material/Snackbar'
 
 type Props = {
-  empId: string
+  empId: string,
+  populateEmployeeList:Function
 }
 
-const EmpDeleteButton = ({ empId }: Props) => {
-  const [employeeID, setEmployeeId] = useState('')
-  const [openModal, setModalOpen] = useState(false);
+const EmpDeleteButton = ({ empId, populateEmployeeList}: Props) => {
+  // const [employeeID, setEmployeeId] = useState('')
+  const [openModal, setModalOpen] = useState(false)
+  const [snackBar, setSnackbar] = useState({ open: false, messege: '' })
 
-
-
-
-  useEffect(() => {
-    setEmployeeId(empId)
-  }, [])
-
+  const router = useRouter()
+  // useEffect(() => {
+  //   setEmployeeId(empId)
+  // }, [])
 
   const closeModal = (e: any) => {
     e.preventDefault()
@@ -28,23 +29,45 @@ const EmpDeleteButton = ({ empId }: Props) => {
 
   const handleDelete = async () => {
     await deleteEmplyeeRecord(empId)
-    console.log('delete method called')
+      .then(() => {
+        setSnackbar({
+          open: true,
+          messege: 'Successfully deleted',
+        })
+        populateEmployeeList()
+        router.push('/employee/list')
+      })
+      .catch((err) => {
+        setSnackbar({
+          open: true,
+          messege: 'An error occured while deleteing Record',
+        })
+      })
+    setModalOpen(false)
   }
 
   const handleClickOpen = () => {
-    setModalOpen(true);
-  };
-
-  // const handleClose = () => {
-  //   setModalOpen(false);
-  // };
+    setModalOpen(true)
+  }
 
   return (
     <>
       <IconButton onClick={handleClickOpen}>
-      {openModal && <ConfirmDelete handleDelete={handleDelete} modalOpenStatus={openModal} handleClose={closeModal}/>}
+        {openModal && (
+          <ConfirmDelete
+            handleDelete={handleDelete}
+            modalOpenStatus={openModal}
+            handleClose={closeModal}
+          />
+        )}
         <DeleteIcon fontSize='medium' />
       </IconButton>
+      <Snackbar
+        open={snackBar.open}
+        autoHideDuration={6000}
+        onClose={()=> setSnackbar({open: false, messege:''})}
+        message={snackBar.messege}
+      />
     </>
   )
 }
