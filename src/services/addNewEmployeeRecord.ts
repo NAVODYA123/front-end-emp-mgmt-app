@@ -1,8 +1,8 @@
 import { Employee } from '../types/employeeDataTypes'
 
 
-export const addNewEmployeeRecord = async (fieldValues: Employee) => {    
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee`, {
+export const addNewEmployeeRecord = async (fieldValues: Employee):Promise<any> => {    
+   return await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

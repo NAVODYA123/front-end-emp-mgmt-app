@@ -15,6 +15,8 @@ import { editEmployeeRecord } from '../../services/editEmployeeRecord'
 import { Employee } from '../../types/employeeDataTypes'
 import Link from 'next/link'
 import useValidations from '../../hooks/useValidations'
+import { useRouter } from 'next/router'
+import Snackbar from '@mui/material/Snackbar'
 
 type Props = {
   isEdit: boolean
@@ -25,6 +27,8 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
   const [employeeRecord, setEmpRecord] = useState(employee)
   const { validationStatus, errorMesseges, errorStatus, validateFormData } =
     useValidations()
+  const [snackBar, setSnackbar] = useState({ open: false, messege: '' })
+  const router = useRouter()
 
   const onChange = ({
     target,
@@ -32,21 +36,53 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
     setEmpRecord({ ...employeeRecord, [target.id]: target.value })
   }
 
-  const onSubmitForm = (event: any) => {
+  const onUpdateRecord = async (event: any) => {
     event.preventDefault()
-    editEmployeeRecord(`${employeeRecord?.id}`, employeeRecord)
+    await editEmployeeRecord(`${employeeRecord?.id}`, employeeRecord).then(()=>{
+      setSnackbar({
+        open: true,
+        messege: 'Successfully updated',
+      })
+    }).catch((err)=>{
+      setSnackbar({
+        open: true,
+        messege: 'An error occured while updating record',
+      })
+    })
   }
 
   const onGenderSelect = ({ target }: any) => {
     setEmpRecord({ ...employeeRecord, gender: target.value })
   }
 
-  const addNewRecord = async (event:any) => {
-    event.preventDefault()
-    validateFormData({ ...employeeRecord })
+  const handleCloseSnaker = () => {
+    setSnackbar({ open: false, messege: '' })
+    router.push('/employee/list')
+  }
 
-    if (validationStatus) {
+  const addNewRecord = async (event: any) => {
+    event.preventDefault()
+    await validateFormData({ ...employeeRecord })
+
+    if (
+      errorStatus.email &&
+      errorStatus.firstname &&
+      errorStatus.lastname &&
+      errorStatus.number
+    ) {
       await addNewEmployeeRecord(employeeRecord)
+        .then(() => {
+           setSnackbar({
+            open: true,
+            messege: 'Successfully added',
+          })
+        })
+        .catch((err) => {
+          setSnackbar({
+            open: true,
+            messege: 'An error occured while adding record',
+          })
+        })
     }
   }
 
@@ -186,7 +222,7 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
           >
             <Button
               variant='contained'
-              onClick={(e) => (isEdit ? onSubmitForm(e) : addNewRecord(e))}
+              onClick={(e) => (isEdit ? onUpdateRecord(e) : addNewRecord(e))}
             >
               {isEdit ? 'Update' : 'Add'} Record
             </Button>
@@ -196,6 +232,12 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
           </Box>
         </Box>
       </Box>
+      <Snackbar
+        open={snackBar.open}
+        autoHideDuration={2000}
+        onClose={() => handleCloseSnaker()}
+        message={snackBar.messege}
+      />
     </>
   )
 }

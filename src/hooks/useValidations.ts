@@ -69,7 +69,7 @@ const useValidations = (): ValidationData => {
     }
   }
 
-  const validateFormData = async (submittedData: FormData) => {
+  const validateFormData = (submittedData: FormData) => {
     const emailDataObject = validateEmail(submittedData.email)
     const firstNameDataObject = validateName(submittedData.firstname)
     const lastNameDataObject = validateName(submittedData.lastname)
@@ -79,6 +79,7 @@ const useValidations = (): ValidationData => {
       firstNameDataObject.valid &&
       lastNameDataObject.valid &&
       emailDataObject.valid
+      
     setValidationStaus(validationState)
 
     setErrorMesseges({
