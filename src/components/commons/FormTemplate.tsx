@@ -10,8 +10,8 @@ import {
   MenuItem,
 } from '@mui/material'
 import { ChangeEvent, useState } from 'react'
-import { addNewEmployeeRecord } from '../../../services/addNewEmployeeRecord'
-import { editEmployeeRecord } from '../../../services/editEmployeeRecord'
+import { addNewEmployeeRecord } from '../../services/addNewEmployeeRecord'
+import { editEmployeeRecord } from '../../services/editEmployeeRecord'
 import { Employee } from '../../types/employeeDataTypes'
 import Link from 'next/link'
 import useValidations from '../../hooks/useValidations'

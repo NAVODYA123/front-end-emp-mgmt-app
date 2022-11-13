@@ -12,9 +12,12 @@ import AddIcon from '@mui/icons-material/Add'
 import Link from 'next/link'
 import Typography from '@mui/material/Typography'
 import { useDispatch, useSelector } from 'react-redux'
-import { applySearchAndSort, populateData, selectEmployees } from '../../src/slices/employee'
+import {
+  applySearchAndSort,
+  populateData,
+  selectEmployees,
+} from '../../src/slices/employee'
 import BackButton from '../../src/components/commons/buttons/BackButton'
-import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
@@ -28,7 +31,6 @@ const ViewEmployee = () => {
   const [toggleList, setToggleList] = useState(true)
   const [colName, setSortColumn] = useState('lastname')
   const [sortOrder, setSortOrder] = useState(false)
-  const [sortedList, setSortedList] = useState<Employee>()
 
   const dispatch = useDispatch()
   const employeeArray = useSelector(selectEmployees).employees.map(
@@ -39,7 +41,7 @@ const ViewEmployee = () => {
     (empItem) => empItem as Employee
   )
 
-    const getAllEmployees = async () => {
+  const getAllEmployees = async () => {
     const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee`, {
       method: 'GET',
       headers: {
@@ -49,20 +51,26 @@ const ViewEmployee = () => {
       .then((res) => res.json())
       .then((data: Employee[] | any) => {
         dispatch(populateData(data))
-        dispatch(applySearchAndSort(sortEmployeeArray(data, colName, sortOrder)))
+        dispatch(
+          applySearchAndSort(sortEmployeeArray(data, colName, sortOrder))
+        )
       })
   }
   useEffect(() => {
     getAllEmployees()
   }, [])
 
-   const handleChange = (event: SelectChangeEvent) => {
+  const handleChange = (event: SelectChangeEvent) => {
     setSortColumn(event.target.value as string)
-    const sortedResult = sortEmployeeArray(sortedArray, event.target.value, sortOrder)
+    const sortedResult = sortEmployeeArray(
+      sortedArray,
+      event.target.value,
+      sortOrder
+    )
     dispatch(applySearchAndSort(sortedResult))
   }
 
-  const handleSort = () => {    
+  const handleSort = () => {
     const sortedResult = sortEmployeeArray(sortedArray, colName, !sortOrder)
     dispatch(applySearchAndSort(sortedResult))
     setSortOrder(!sortOrder)
@@ -73,8 +81,6 @@ const ViewEmployee = () => {
     let result = searchEmployeeArray(employeeArray, sortVal)
     result = sortEmployeeArray(result, colName, sortOrder)
     dispatch(applySearchAndSort(result))
-
-    // sortedEmpArray = result
   }
 
   return (
@@ -157,16 +163,22 @@ const ViewEmployee = () => {
                 >
                   <MenuItem value={'firstname'}>First Name</MenuItem>
                   <MenuItem value={'lastname'}>Last Name</MenuItem>
-                  <MenuItem value={'number'}>Phone</MenuItem>                 
+                  <MenuItem value={'number'}>Phone</MenuItem>
                   <MenuItem value={'email'}>Email</MenuItem>
                 </Select>
               </FormControl>
-              <Box sx={{minWidth:'150px', display:'flex', justifyContent:'center'}}>
-              <Stack direction='row' spacing={1} alignItems='center'>
-                <Typography>Z-A</Typography>
-                <Switch checked={sortOrder} onChange={handleSort} />
-                <Typography>A-Z</Typography>
-              </Stack>
+              <Box
+                sx={{
+                  minWidth: '150px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
+              >
+                <Stack direction='row' spacing={1} alignItems='center'>
+                  <Typography>Z-A</Typography>
+                  <Switch checked={sortOrder} onChange={handleSort} />
+                  <Typography>A-Z</Typography>
+                </Stack>
               </Box>
             </Box>
             <Box

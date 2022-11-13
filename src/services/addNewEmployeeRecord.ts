@@ -1,4 +1,4 @@
-import { Employee } from '../src/types/employeeDataTypes'
+import { Employee } from '../types/employeeDataTypes'
 
 
 export const addNewEmployeeRecord = async (fieldValues: Employee) => {    
