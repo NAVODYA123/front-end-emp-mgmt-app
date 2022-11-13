@@ -1,16 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
 import { AppState } from '../store/store'
 
 const employeeSlice = createSlice({
   name: 'employeeData',
-  initialState: { employees: [], sortedEmpArray:[] },
+  initialState: { employees: [], sortedEmpArray: [] },
   reducers: {
     populateData: (state, action) => {
-      console.log('state', state)
+
       state.employees = action.payload
     },
-    applySearchAndSort:(state,action)=>{
+    applySearchAndSort: (state, action) => {
       state.sortedEmpArray = action.payload
     }
 

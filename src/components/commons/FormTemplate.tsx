@@ -22,16 +22,14 @@ type Props = {
 }
 
 const FormTemplate = ({ isEdit, employee }: Props) => {
-  const [employeeRecord, setEmpRecord] = useState(
-    employee     
-  )
-  const { validationStatus, errorMesseges, errorStatus, validateFormData } = useValidations()
+  const [employeeRecord, setEmpRecord] = useState(employee)
+  const { validationStatus, errorMesseges, errorStatus, validateFormData } =
+    useValidations()
 
-  console.log('errorStatus',errorStatus?.firstname)
-  const onChange = ({ target }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    console.log(target.id)
-    console.log(target.value)
-    setEmpRecord({ ...employeeRecord,[target.id]: target.value  })
+  const onChange = ({
+    target,
+  }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setEmpRecord({ ...employeeRecord, [target.id]: target.value })
   }
 
   const onSubmitForm = (event: any) => {
@@ -40,16 +38,12 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
   }
 
   const onGenderSelect = ({ target }: any) => {
-    console.log(' target.value', target.value)
     setEmpRecord({ ...employeeRecord, gender: target.value })
   }
 
+  const addNewRecord = async () => {
+    validateFormData({ ...employeeRecord })
 
-  const addNewRecord = async () => {  
-  
-    validateFormData({...employeeRecord})
-    console.log('validation status', validationStatus)
-    console.log({errorMesseges, errorStatus,})
     if (validationStatus) {
       await addNewEmployeeRecord(employeeRecord)
     }
@@ -102,7 +96,6 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
             pb: 4,
           }}
         >
-          
           <Button
             variant='outlined'
             component='label'
@@ -110,26 +103,26 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
           >
             <Avatar
               alt='Click to add photo'
-              src={isEdit?employeeRecord?.photo : ''}	
+              src={isEdit ? employeeRecord?.photo : ''}
               sx={{ width: 100, height: 100 }}
               variant='circular'
             />
             <input hidden accept='image/*' multiple type='file' />
           </Button>
 
-          <TextField 
-            error={!errorStatus?.firstname}         
+          <TextField
+            error={!errorStatus?.firstname}
             sx={{ width: '60%' }}
             required
             id='firstname'
             label='First name'
             variant='standard'
             helperText={errorMesseges?.firstname}
-            defaultValue={employeeRecord?.firstname}        
+            defaultValue={employeeRecord?.firstname}
             onChange={(e) => onChange(e)}
           />
           <TextField
-           error={!errorStatus?.lastname} 
+            error={!errorStatus?.lastname}
             sx={{ width: '60%' }}
             required
             id='lastname'
@@ -141,7 +134,7 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
           />
 
           <TextField
-           error={!errorStatus?.email} 
+            error={!errorStatus?.email}
             sx={{ width: '60%' }}
             required
             id='email'
@@ -153,7 +146,7 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
           />
 
           <TextField
-           error={!errorStatus?.number} 
+            error={!errorStatus?.number}
             sx={{ width: '60%' }}
             required
             id='number'
@@ -190,14 +183,16 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
               alignItems: 'center',
             }}
           >
-            <Button variant='contained' onClick={(e) => isEdit? onSubmitForm(e): addNewRecord()}>
-              {isEdit?'Update':'Add'} Record
+            <Button
+              variant='contained'
+              onClick={(e) => (isEdit ? onSubmitForm(e) : addNewRecord())}
+            >
+              {isEdit ? 'Update' : 'Add'} Record
             </Button>
-            <Link href={'/employee/list'} passHref>          
-            <Button variant='outlined' >Cancel</Button>
+            <Link href={'/employee/list'} passHref>
+              <Button variant='outlined'>Cancel</Button>
             </Link>
           </Box>
-       
         </Box>
       </Box>
     </>
