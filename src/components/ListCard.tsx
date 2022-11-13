@@ -13,7 +13,7 @@ const ListCard = ({ empData }: Props) => {
     <Box
       sx={{
         width: '90%',
-        height: 70,
+        height: 80,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-evenly',
@@ -27,7 +27,7 @@ const ListCard = ({ empData }: Props) => {
     >
       <Box sx={{ width: '10%' }}>
         {' '}
-        <Avatar alt={empData.photo} src={empData.photo} />
+        <Avatar alt={empData.photo} src={empData.photo} sx={{ width: 56, height: 56 }}/>
       </Box>      
       <Box sx={{ width: '10%',overflow:'hidden',textOverflow:'ellipsis' }}>{empData.firstname}</Box>
       <Box sx={{ width: '10%',overflow:'hidden',textOverflow:'ellipsis' }}>{empData.lastname}</Box>

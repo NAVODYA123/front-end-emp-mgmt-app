@@ -49,7 +49,7 @@ const GridCard = ({ empData }: Props) => {
             <Avatar
               alt={empData.photo}
               src={empData.photo}
-              sx={{ height: '150px', width: '150px' }}
+              sx={{ height: '120px', width: '120px' }}
             />
             <CardContent
               sx={{
