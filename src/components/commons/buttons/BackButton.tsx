@@ -13,7 +13,7 @@ const BackButton = ({ navigationLink }: Props) => {
           sx={{
             background: 'black',           
             '&:hover': {
-              backgroundColor:'primary.dark',       
+              backgroundColor:'primary.light',       
             },
             m:4,
           }}
