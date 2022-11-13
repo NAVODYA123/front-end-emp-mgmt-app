@@ -3,16 +3,26 @@ import { Employee } from '../types/employeeDataTypes'
 const sortEmployeeArray = (
   objArray: Employee[],
   Objproperty: String | number,
-  sortOrder:boolean
+  sortOrder: boolean
 ) => {
   let SortedArray = new Array()
-   switch (Objproperty) {
+  switch (Objproperty) {
     case 'email':
       {
         SortedArray = [...objArray].sort((a, b) => {
           let x = a.email.toLowerCase()
           let y = b.email.toLowerCase()
-          let result  = sortOrder?(x > y ? 1 : x < y ? -1 : 0):(x < y ? 1 : x > y ? -1 : 0)
+          let result: number = sortOrder
+            ? x > y
+              ? 1
+              : x < y
+                ? -1
+                : 0
+            : x < y
+              ? 1
+              : x > y
+                ? -1
+                : 0
           return result
         })
       }
@@ -22,7 +32,17 @@ const sortEmployeeArray = (
         SortedArray = [...objArray].sort((a, b) => {
           let x = a.firstname.toLowerCase()
           let y = b.firstname.toLowerCase()
-          let result  = sortOrder?(x > y ? 1 : x < y ? -1 : 0):(x < y ? 1 : x > y ? -1 : 0)
+          let result: number = sortOrder
+            ? x > y
+              ? 1
+              : x < y
+                ? -1
+                : 0
+            : x < y
+              ? 1
+              : x > y
+                ? -1
+                : 0
           return result
         })
       }
@@ -32,17 +52,17 @@ const sortEmployeeArray = (
         SortedArray = [...objArray].sort((a, b) => {
           let x = a.lastname.toLowerCase()
           let y = b.lastname.toLowerCase()
-          let result  = sortOrder?(x > y ? 1 : x < y ? -1 : 0):(x < y ? 1 : x > y ? -1 : 0)
-          return result
-        })
-      }
-      break
-    case 'id':
-      {
-        SortedArray = [...objArray].sort((a, b) => {
-          let x = Number(a.id)
-          let y = Number(b.id)
-          let result  = sortOrder?(x > y ? 1 : x < y ? -1 : 0):(x < y ? 1 : x > y ? -1 : 0)
+          let result: number = sortOrder
+            ? x > y
+              ? 1
+              : x < y
+                ? -1
+                : 0
+            : x < y
+              ? 1
+              : x > y
+                ? -1
+                : 0
           return result
         })
       }
@@ -51,8 +71,18 @@ const sortEmployeeArray = (
       SortedArray = [...objArray].sort((a, b) => {
         let x = Number(a.number)
         let y = Number(b.number)
-        let result  = sortOrder?(x > y ? 1 : x < y ? -1 : 0):(x < y ? 1 : x > y ? -1 : 0)
-          return result
+        let result: number = sortOrder
+          ? x > y
+            ? 1
+            : x < y
+              ? -1
+              : 0
+          : x < y
+            ? 1
+            : x > y
+              ? -1
+              : 0
+        return result
       })
     }
     default: {

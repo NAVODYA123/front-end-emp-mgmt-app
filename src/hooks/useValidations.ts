@@ -9,17 +9,27 @@ import {
 import { useState } from 'react'
 
 import {
-  ErrorStatusType, 
+  ErrorStatusType,
   ValidationData,
   FormData,
   MessegeTypes,
 } from '../types/employeeDataTypes'
 
 const useValidations = (): ValidationData => {
-  const [errorMesseges, setErrorMesseges] = useState<MessegeTypes>({firstname: '', lastname: '', number:'', email: ''})
-  
+  const [errorMesseges, setErrorMesseges] = useState<MessegeTypes>({
+    firstname: '',
+    lastname: '',
+    number: '',
+    email: '',
+  })
+
   const [validationStatus, setValidationStaus] = useState(false)
-  const [errorStatus, setErrorStatus] = useState<ErrorStatusType>({firstname: true, lastname: true, number: true, email: true})
+  const [errorStatus, setErrorStatus] = useState<ErrorStatusType>({
+    firstname: true,
+    lastname: true,
+    number: true,
+    email: true,
+  })
 
   const validatePhone = (number: string) => {
     const valid = isMobilePhone(number, 'si-LK')
@@ -55,7 +65,7 @@ const useValidations = (): ValidationData => {
     }
     return {
       message: messages.join(', '),
-      valid
+      valid,
     }
   }
 
@@ -77,7 +87,7 @@ const useValidations = (): ValidationData => {
       lastname: lastNameDataObject.message,
       number: phoneDataObject.message,
       email: emailDataObject.message,
-    })  
+    })
 
     setErrorStatus({
       ...errorStatus,
@@ -90,8 +100,8 @@ const useValidations = (): ValidationData => {
 
   return {
     validationStatus,
-    errorMesseges ,
-    errorStatus,   
+    errorMesseges,
+    errorStatus,
     validateFormData,
   }
 }

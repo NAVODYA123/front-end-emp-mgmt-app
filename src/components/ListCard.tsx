@@ -27,18 +27,37 @@ const ListCard = ({ empData }: Props) => {
     >
       <Box sx={{ width: '10%' }}>
         {' '}
-        <Avatar alt={empData.photo} src={empData.photo} sx={{ width: 56, height: 56 }}/>
-      </Box>      
-      <Box sx={{ width: '10%',overflow:'hidden',textOverflow:'ellipsis' }}>{empData.firstname}</Box>
-      <Box sx={{ width: '10%',overflow:'hidden',textOverflow:'ellipsis' }}>{empData.lastname}</Box>
-      <Box sx={{ width: '20%', maxWidth:'20%',overflow:'hidden',textOverflow:'ellipsis' }}>{empData.email}</Box>
-      <Box sx={{ width: '10%', overflow:'hidden',textOverflow:'ellipsis' }}>{empData.number}</Box>
-      <Box sx={{ width: '10%',overflow:'hidden',textOverflow:'ellipsis' }}>
+        <Avatar
+          alt={empData.photo}
+          src={empData.photo}
+          sx={{ width: 56, height: 56 }}
+        />
+      </Box>
+      <Box sx={{ width: '10%', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+        {empData.firstname}
+      </Box>
+      <Box sx={{ width: '10%', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+        {empData.lastname}
+      </Box>
+      <Box
+        sx={{
+          width: '20%',
+          maxWidth: '20%',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+        }}
+      >
+        {empData.email}
+      </Box>
+      <Box sx={{ width: '10%', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+        {empData.number}
+      </Box>
+      <Box sx={{ width: '10%', overflow: 'hidden', textOverflow: 'ellipsis' }}>
         {empData.gender === 'M' ? 'Male' : 'Female'}
       </Box>
-      <Box sx={{ width: '10%' }}>      
+      <Box sx={{ width: '10%' }}>
         <EmpDeleteButton empId={empData.id} />
-        <EmpEditButton empId={empData.id} />       
+        <EmpEditButton empId={empData.id} />
       </Box>
     </Box>
   )

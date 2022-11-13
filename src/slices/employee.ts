@@ -6,13 +6,11 @@ const employeeSlice = createSlice({
   initialState: { employees: [], sortedEmpArray: [] },
   reducers: {
     populateData: (state, action) => {
-
       state.employees = action.payload
     },
     applySearchAndSort: (state, action) => {
       state.sortedEmpArray = action.payload
-    }
-
+    },
   },
 })
 

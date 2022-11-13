@@ -1,7 +1,6 @@
 import IconButton from '@mui/material/IconButton'
 import EditRoundedIcon from '@mui/icons-material/EditRounded'
 import Link from 'next/link'
-import { Employee } from '../../../types/employeeDataTypes'
 
 type Props = {
   empId: string
