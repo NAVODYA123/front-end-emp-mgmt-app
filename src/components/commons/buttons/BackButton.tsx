@@ -11,15 +11,21 @@ const BackButton = ({ navigationLink }: Props) => {
       <Link href={navigationLink} passHref>
         <Fab
           sx={{
-            background: 'black',
-            color: 'white',
-            '&hover': {
-              boxShadow: 12,
+            background: 'black',           
+            '&:hover': {
+              backgroundColor:'primary.dark',       
             },
+            m:4,
           }}
           aria-label='add'
         >
-          <ArrowBackOutlinedIcon />
+          <ArrowBackOutlinedIcon sx={{ 
+            color: "white",
+            '&:hover': {             
+              color:'white',
+           },
+           
+          }}/>
         </Fab>
       </Link>
     </>
