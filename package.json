@@ -14,6 +14,7 @@
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.11",
     "@reduxjs/toolkit": "^1.9.0",
+    "array-sort": "^1.0.0",
     "class-validator": "^0.13.2",
     "email-validator": "^2.0.4",
     "next": "^13.0.2",

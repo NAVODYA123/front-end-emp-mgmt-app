@@ -16,7 +16,7 @@ import Tooltip from '@mui/material/Tooltip'
 import EmpDeleteButton from './commons/buttons/EmpDeleteButton'
 import EmpEditButton from './commons/buttons/EmpEditButton'
 import { ThemeProvider } from '@mui/material/styles'
-import EmpAppTheme from '../../styles/customTheme/empAppTheme'
+import EmpAppTheme from '../../styles/customTheme/EmpAppTheme'
 
 const GridCard = ({ empData }: Props) => {
   return (

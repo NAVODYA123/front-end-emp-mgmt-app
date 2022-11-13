@@ -4,19 +4,20 @@ import { AppState } from '../store/store'
 
 const employeeSlice = createSlice({
   name: 'employeeData',
-  initialState: { employees: [] },
+  initialState: { employees: [], sortedEmpArray:[] },
   reducers: {
     populateData: (state, action) => {
       console.log('state', state)
       state.employees = action.payload
     },
-    updateRecord: (state, action: PayloadAction) => {
-      console.log('data sent', action.payload)
-    },
+    applySearchAndSort:(state,action)=>{
+      state.sortedEmpArray = action.payload
+    }
+
   },
 })
 
-export const { populateData, updateRecord } = employeeSlice.actions
+export const { populateData, applySearchAndSort } = employeeSlice.actions
 export const selectEmployees = (state: AppState) => state.employeeStore
 
 export default employeeSlice.reducer
