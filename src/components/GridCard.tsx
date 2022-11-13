@@ -15,100 +15,106 @@ import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined'
 import Tooltip from '@mui/material/Tooltip'
 import EmpDeleteButton from './commons/buttons/EmpDeleteButton'
 import EmpEditButton from './commons/buttons/EmpEditButton'
+import { ThemeProvider } from '@mui/material/styles'
+import EmpAppTheme from '../../styles/customTheme/empAppTheme'
 
 const GridCard = ({ empData }: Props) => {
   return (
-    <Box sx={{ width: '20%' }}>
-      <Grid>
-        <Card
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            boxShadow: 3,
-            borderRadius: '16px',
-            '&:hover': {
-              boxShadow: 12,
-            },
-          }}
-        >
-         <CardActions
-            sx={{
-              width: '100%',
-              display: 'flex',
-              flexDirection: 'row !important',
-              justifyContent: 'flex-end',
-            }}
-          >
-            <EmpDeleteButton empId={empData.id} />
-            <EmpEditButton empId={empData.id} />
-          </CardActions>
-          <Avatar
-            alt={empData.photo}
-            src={empData.photo}
-            sx={{ height: '150px', width: '150px' }}
-          />
-          <CardContent
+    <ThemeProvider theme={EmpAppTheme}>
+      {/* <Box sx={{ width: '20%' }}> */}
+      <Box sx={{ minWidth:'250px'}}>
+        <Grid xs={8} md={12} sm={12}>
+          <Card
             sx={{
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              boxShadow: 3,
+              borderRadius: '16px',
+              '&:hover': {
+                boxShadow: 12,
+              },
             }}
           >
-            <Box>
-              <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
-                <Box style={{}}>{`${empData.firstname}${' '}${
-                  empData.lastname
-                }`}</Box>
-              </Typography>
-            </Box>
-            <Box>
-              <Box
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
-                <MailOutlineRoundedIcon fontSize='small' sx={{ m: 1 }} />
-                <Tooltip title={empData.email} placement='right-end'>
-                  <Box
-                    style={{
-                      maxWidth: '150px',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                    }}
-                  >
-                    {empData.email}
-                  </Box>
-                </Tooltip>
+            <CardActions
+              sx={{
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'row !important',
+                justifyContent: 'flex-end',
+              }}
+            >
+              <EmpDeleteButton empId={empData.id} />
+              <EmpEditButton empId={empData.id} />
+            </CardActions>
+            <Avatar
+              alt={empData.photo}
+              src={empData.photo}
+              sx={{ height: '150px', width: '150px' }}
+            />
+            <CardContent
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
+              <Box>
+                <Typography variant='h6' sx={{ fontWeight: 'bold' }}>
+                  <Box style={{}}>{`${empData.firstname}${' '}${
+                    empData.lastname
+                  }`}</Box>
+                </Typography>
               </Box>
+              <Box>
+                <Box
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}
+                >
+                  <MailOutlineRoundedIcon fontSize='small' sx={{ m: 1 }} />
+                  <Tooltip title={empData.email} placement='right-end'>
+                    <Typography
+                      variant='body1'
+                      sx={{
+                        maxWidth: '150px',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                      }}
+                    >
+                      {empData.email}
+                    </Typography>
+                  </Tooltip>
+                </Box>
 
-              <Box
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
-                <PhoneOutlinedIcon fontSize='small' sx={{ m: 1 }} />
-                <Box>{empData.number}</Box>
-              </Box>
+                <Box
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}
+                >
+                  <PhoneOutlinedIcon fontSize='small' sx={{ m: 1 }} />
+                  <Box>{empData.number}</Box>
+                </Box>
 
-              <Box
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                }}
-              >
-                {empData.gender === 'M' ? 'Male' : 'Female'}
+                <Box
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {empData.gender === 'M' ? 'Male' : 'Female'}
+                </Box>
               </Box>
-            </Box>
-          </CardContent>
-        </Card>
-      </Grid>
-    </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Box>
+    </ThemeProvider>
   )
 }
 

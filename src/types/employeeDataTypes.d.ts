@@ -8,6 +8,7 @@ export type Employee = {
   photo: string
 }
 
+
 export type FormData = {
   firstname: string,
   lastname: string,

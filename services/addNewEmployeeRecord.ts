@@ -1,4 +1,5 @@
-import { Employee, FormData } from '../src/types/employeeDataTypes'
+import { Employee } from '../src/types/employeeDataTypes'
+
 
 export const addNewEmployeeRecord = async (fieldValues: Employee) => {    
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee`, {

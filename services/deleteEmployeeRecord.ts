@@ -7,6 +7,6 @@ export const deleteEmplyeeRecord = async (id: string) => {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
       },   
-    }).then((response) => response.json())
+    })
   }
   

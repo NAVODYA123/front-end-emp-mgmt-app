@@ -1,4 +1,4 @@
-import { Employee, FormData } from '../src/types/employeeDataTypes'
+import { Employee } from '../src/types/employeeDataTypes'
 
 //edit employee record
 export const editEmployeeRecord = async (id: string, data?: Employee, ) => {
