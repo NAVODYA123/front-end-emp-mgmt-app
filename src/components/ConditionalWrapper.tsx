@@ -18,7 +18,7 @@ const ConditionalWrapper = ({ condition, children }: Props) => {
         mt:4
       }}
     >
-      <Grid width='90%' container spacing={{xs:4, sm:4 , md:3 }} columns={{xs:8, sm:12, md:12}}>
+      <Grid width='90%' container spacing={{xs:4, sm:4 , md:4}} columns={{xs:8, sm:12, md:12}}>
         {children}
       </Grid>
     </Box>

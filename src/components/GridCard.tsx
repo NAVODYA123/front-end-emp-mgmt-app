@@ -20,8 +20,7 @@ import EmpAppTheme from '../../styles/customTheme/empAppTheme'
 
 const GridCard = ({ empData }: Props) => {
   return (
-    <ThemeProvider theme={EmpAppTheme}>
-      {/* <Box sx={{ width: '20%' }}> */}
+    <ThemeProvider theme={EmpAppTheme}>     
       <Box sx={{ minWidth:'250px'}}>
         <Grid xs={8} md={12} sm={12}>
           <Card

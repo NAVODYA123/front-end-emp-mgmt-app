@@ -154,11 +154,13 @@ const ViewEmployee = () => {
                   <MenuItem value={'email'}>Email</MenuItem>
                 </Select>
               </FormControl>
+              <Box sx={{minWidth:'150px', display:'flex', justifyContent:'center'}}>
               <Stack direction='row' spacing={1} alignItems='center'>
                 <Typography>Z-A</Typography>
                 <Switch onChange={handleSort} />
                 <Typography>A-Z</Typography>
               </Stack>
+              </Box>
             </Box>
             <Box
               sx={{

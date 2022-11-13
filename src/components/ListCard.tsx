@@ -29,11 +29,11 @@ const ListCard = ({ empData }: Props) => {
         {' '}
         <Avatar alt={empData.photo} src={empData.photo} />
       </Box>      
-      <Box sx={{ width: '10%' }}>{empData.firstname}</Box>
-      <Box sx={{ width: '10%' }}>{empData.lastname}</Box>
-      <Box sx={{ width: '20%' }}>{empData.email}</Box>
-      <Box sx={{ width: '10%' }}>{empData.number}</Box>
-      <Box sx={{ width: '10%' }}>
+      <Box sx={{ width: '10%',overflow:'hidden',textOverflow:'ellipsis' }}>{empData.firstname}</Box>
+      <Box sx={{ width: '10%',overflow:'hidden',textOverflow:'ellipsis' }}>{empData.lastname}</Box>
+      <Box sx={{ width: '20%', maxWidth:'20%',overflow:'hidden',textOverflow:'ellipsis' }}>{empData.email}</Box>
+      <Box sx={{ width: '10%', overflow:'hidden',textOverflow:'ellipsis' }}>{empData.number}</Box>
+      <Box sx={{ width: '10%',overflow:'hidden',textOverflow:'ellipsis' }}>
         {empData.gender === 'M' ? 'Male' : 'Female'}
       </Box>
       <Box sx={{ width: '10%' }}>      

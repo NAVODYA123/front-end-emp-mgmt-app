@@ -2,7 +2,6 @@ import {
   isAlpha,
   isEmail,
   isMobilePhone,
-  IsMobilePhone,
   isNotEmpty,
   maxLength,
   minLength,
