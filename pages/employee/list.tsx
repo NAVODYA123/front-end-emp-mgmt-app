@@ -213,10 +213,10 @@ const ViewEmployee = () => {
                   mb: 2,
                 }}
               >
-                <ListCard key={`emp-id-list-${emp.id}`} empData={emp} />
+                <ListCard key={`emp-id-list-${emp.id}`} empData={emp} populateEmployeeList={getAllEmployees}/>
               </Box>
             ) : (
-              <GridCard key={`emp-id-grid-${emp.id}`} empData={emp} />
+              <GridCard key={`emp-id-grid-${emp.id}`} empData={emp} populateEmployeeList={getAllEmployees}/>
             )
           })}
         </ConditionalWrapper>

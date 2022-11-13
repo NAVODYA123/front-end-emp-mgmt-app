@@ -41,7 +41,8 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
     setEmpRecord({ ...employeeRecord, gender: target.value })
   }
 
-  const addNewRecord = async () => {
+  const addNewRecord = async (event:any) => {
+    event.preventDefault()
     validateFormData({ ...employeeRecord })
 
     if (validationStatus) {
@@ -185,7 +186,7 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
           >
             <Button
               variant='contained'
-              onClick={(e) => (isEdit ? onSubmitForm(e) : addNewRecord())}
+              onClick={(e) => (isEdit ? onSubmitForm(e) : addNewRecord(e))}
             >
               {isEdit ? 'Update' : 'Add'} Record
             </Button>

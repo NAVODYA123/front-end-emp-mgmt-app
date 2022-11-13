@@ -37,3 +37,7 @@ export type ErrorStatusType = {
   number: boolean
   email: boolean
 }
+export type EmployeeCardProps ={
+  empData: Employee,
+  populateEmployeeList: Function,
+}

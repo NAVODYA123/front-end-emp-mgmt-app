@@ -26,6 +26,7 @@ const ConfirmDelete = ({
       >
         <DialogTitle id='alert-dialog-title'>{'Confirm delete?'}</DialogTitle>
         <DialogContent>
+          
           <DialogContentText id='alert-dialog-description'>
             Are you sure you want to delete this record ?
           </DialogContentText>

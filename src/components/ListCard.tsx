@@ -1,14 +1,11 @@
-import type { Employee } from '../types/employeeDataTypes'
-type Props = {
-  empData: Employee
-}
+import type { EmployeeCardProps } from '../types/employeeDataTypes'
 
 import Box from '@mui/material/Box'
 import Avatar from '@mui/material/Avatar'
 import EmpEditButton from './commons/buttons/EmpEditButton'
 import EmpDeleteButton from './commons/buttons/EmpDeleteButton'
 
-const ListCard = ({ empData }: Props) => {
+const ListCard = ({ empData,populateEmployeeList }: EmployeeCardProps) => {
   return (
     <Box
       sx={{
@@ -56,7 +53,7 @@ const ListCard = ({ empData }: Props) => {
         {empData.gender === 'M' ? 'Male' : 'Female'}
       </Box>
       <Box sx={{ width: '10%' }}>
-        <EmpDeleteButton empId={empData.id} />
+        <EmpDeleteButton populateEmployeeList={populateEmployeeList} empId={empData.id} />
         <EmpEditButton empId={empData.id} />
       </Box>
     </Box>
