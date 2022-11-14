@@ -17,7 +17,7 @@ import Link from 'next/link'
 import useValidations from '../../hooks/useValidations'
 import { useRouter } from 'next/router'
 import Snackbar from '@mui/material/Snackbar'
-import { setLoadingState } from '../../slices/employee'
+import { setLoadingState } from '../../store/slices/employee'
 import { useDispatch } from 'react-redux'
 
 type Props = {

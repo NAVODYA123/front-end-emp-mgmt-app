@@ -1,6 +1,6 @@
 import Backdrop from '@mui/material/Backdrop'
 import { useSelector } from 'react-redux'
-import { selectEmployees } from '../slices/employee'
+import { selectEmployees } from '../store/slices/employee'
 import CircularProgress from '@mui/material/CircularProgress'
 const LayoutWrapper = ({ children }: any) => {
   const loaderSelector = useSelector(selectEmployees).loadingState

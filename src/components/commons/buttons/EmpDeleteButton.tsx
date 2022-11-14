@@ -6,7 +6,7 @@ import ConfirmDelete from '../ConfirmDeleteModal'
 import Router, { useRouter } from 'next/router'
 import Snackbar from '@mui/material/Snackbar'
 import { useDispatch } from 'react-redux'
-import { setLoadingState } from '../../../slices/employee'
+import { setLoadingState } from '../../../store/slices/employee'
 
 type Props = {
   empId: string,

@@ -17,7 +17,7 @@ import {
   populateData,
   selectEmployees,
   setLoadingState
-} from '../../src/slices/employee'
+} from '../../src/store/slices/employee'
 import BackButton from '../../src/components/commons/buttons/BackButton'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'

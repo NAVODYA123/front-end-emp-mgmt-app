@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { AppState } from '../store/store'
+import { AppState } from '../store'
 
 const employeeSlice = createSlice({
   name: 'employeeData',
