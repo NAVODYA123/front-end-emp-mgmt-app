@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react'
 import ConfirmDelete from '../ConfirmDeleteModal'
 import Router, { useRouter } from 'next/router'
 import Snackbar from '@mui/material/Snackbar'
+import { useDispatch } from 'react-redux'
+import { setLoadingState } from '../../../slices/employee'
 
 type Props = {
   empId: string,
@@ -12,15 +14,12 @@ type Props = {
 }
 
 const EmpDeleteButton = ({ empId, populateEmployeeList}: Props) => {
-  // const [employeeID, setEmployeeId] = useState('')
   const [openModal, setModalOpen] = useState(false)
   const [snackBar, setSnackbar] = useState({ open: false, messege: '' })
 
-  const router = useRouter()
-  // useEffect(() => {
-  //   setEmployeeId(empId)
-  // }, [])
+  const dispatch = useDispatch()
 
+  const router = useRouter()
   const closeModal = (e: any) => {
     e.preventDefault()
     e.stopPropagation()
@@ -28,6 +27,7 @@ const EmpDeleteButton = ({ empId, populateEmployeeList}: Props) => {
   }
 
   const handleDelete = async () => {
+    dispatch(setLoadingState(true))
     await deleteEmplyeeRecord(empId)
       .then(() => {
         setSnackbar({
@@ -35,6 +35,7 @@ const EmpDeleteButton = ({ empId, populateEmployeeList}: Props) => {
           messege: 'Successfully deleted',
         })
         populateEmployeeList()
+        dispatch(setLoadingState(false))
         router.push('/employee/list')
       })
       .catch((err) => {
@@ -42,6 +43,7 @@ const EmpDeleteButton = ({ empId, populateEmployeeList}: Props) => {
           open: true,
           messege: 'An error occured while deleteing Record',
         })
+        dispatch(setLoadingState(false))
       })
     setModalOpen(false)
   }

@@ -16,6 +16,7 @@ import {
   applySearchAndSort,
   populateData,
   selectEmployees,
+  setLoadingState
 } from '../../src/slices/employee'
 import BackButton from '../../src/components/commons/buttons/BackButton'
 import MenuItem from '@mui/material/MenuItem'
@@ -26,6 +27,8 @@ import Stack from '@mui/material/Stack'
 import Switch from '@mui/material/Switch'
 import { TextField } from '@mui/material'
 import searchEmployeeArray from '../../src/utils/searchEmployeeArray'
+import '../../styles/customStyles/List.module.css'
+import { borderRadius } from '@mui/system'
 
 const ViewEmployee = () => {
   const [toggleList, setToggleList] = useState(true)
@@ -42,6 +45,7 @@ const ViewEmployee = () => {
   )
 
   const getAllEmployees = async () => {
+    dispatch(setLoadingState(true))
     const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee`, {
       method: 'GET',
       headers: {
@@ -54,6 +58,7 @@ const ViewEmployee = () => {
         dispatch(
           applySearchAndSort(sortEmployeeArray(data, colName, sortOrder))
         )
+        dispatch(setLoadingState(false))
       })
   }
   useEffect(() => {
@@ -139,27 +144,36 @@ const ViewEmployee = () => {
           >
             <Box
               sx={{
-                width: '60%',
+                width: {md:'60%',sm:'100%', xs:'100%'},
                 display: 'flex',
-                flexDirection: 'row',
+                flexDirection: {md:'row', sm:'column',xs:'column'},
                 justifyContent: 'space-between',
+                
               }}
             >
-              <TextField
+              <TextField                  
                 id='standard-search'
                 label='Search field'
                 type='search'
                 variant='outlined'
                 onChange={(e) => handleSearch(e)}
-                sx={{ width: '60%' }}
+                sx={{ width: {md:'60%',sm:'70%',xs:'90%'},               
+               }}
               />
+
+              <Box sx={{
+                display: 'flex',
+
+              }}>
               <FormControl>
                 <Select
                   labelId='sort-column-name'
                   id='sort-column-name'
                   value={colName}
                   onChange={handleChange}
-                  sx={{ width: '150px' }}
+                  sx={{ width: '150px',
+                  
+                }}
                 >
                   <MenuItem value={'firstname'}>First Name</MenuItem>
                   <MenuItem value={'lastname'}>Last Name</MenuItem>
@@ -180,6 +194,8 @@ const ViewEmployee = () => {
                   <Typography>A-Z</Typography>
                 </Stack>
               </Box>
+              </Box>
+
             </Box>
             <Box
               sx={{
@@ -187,6 +203,7 @@ const ViewEmployee = () => {
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'space-evenly',
+                alignItems: {sm:'flex-start', xs:'flex-start', md:'center'},
               }}
             >
               <IconButton onClick={() => setToggleList(false)}>

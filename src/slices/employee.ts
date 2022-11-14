@@ -3,7 +3,7 @@ import { AppState } from '../store/store'
 
 const employeeSlice = createSlice({
   name: 'employeeData',
-  initialState: { employees: [], sortedEmpArray: [] },
+  initialState: { employees: [], sortedEmpArray: [], loadingState: false },
   reducers: {
     populateData: (state, action) => {
       state.employees = action.payload
@@ -11,10 +11,13 @@ const employeeSlice = createSlice({
     applySearchAndSort: (state, action) => {
       state.sortedEmpArray = action.payload
     },
+    setLoadingState :( state, action)=> {
+      state.loadingState = action.payload
+    }
   },
 })
 
-export const { populateData, applySearchAndSort } = employeeSlice.actions
+export const { populateData, applySearchAndSort, setLoadingState } = employeeSlice.actions
 export const selectEmployees = (state: AppState) => state.employeeStore
 
 export default employeeSlice.reducer

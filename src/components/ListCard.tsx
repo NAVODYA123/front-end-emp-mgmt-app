@@ -5,6 +5,7 @@ import Avatar from '@mui/material/Avatar'
 import EmpEditButton from './commons/buttons/EmpEditButton'
 import EmpDeleteButton from './commons/buttons/EmpDeleteButton'
 
+
 const ListCard = ({ empData,populateEmployeeList }: EmployeeCardProps) => {
   return (
     <Box
