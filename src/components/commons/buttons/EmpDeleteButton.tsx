@@ -9,23 +9,26 @@ import { useDispatch } from 'react-redux'
 import { setLoadingState } from '../../../store/slices/employee'
 
 type Props = {
-  empId: string,
-  populateEmployeeList:Function
+  empId: string
+  populateEmployeeList: Function
 }
 
-const EmpDeleteButton = ({ empId, populateEmployeeList}: Props) => {
+const EmpDeleteButton = ({ empId, populateEmployeeList }: Props) => {
   const [openModal, setModalOpen] = useState(false)
   const [snackBar, setSnackbar] = useState({ open: false, messege: '' })
 
   const dispatch = useDispatch()
 
   const router = useRouter()
+
+  //// close confirmation modal event
   const closeModal = (e: any) => {
     e.preventDefault()
     e.stopPropagation()
     setModalOpen(false)
   }
 
+  //// handle delete record
   const handleDelete = async () => {
     dispatch(setLoadingState(true))
     await deleteEmplyeeRecord(empId)
@@ -47,7 +50,7 @@ const EmpDeleteButton = ({ empId, populateEmployeeList}: Props) => {
       })
     setModalOpen(false)
   }
-
+  //// open confirmation modal
   const handleClickOpen = () => {
     setModalOpen(true)
   }
@@ -67,7 +70,7 @@ const EmpDeleteButton = ({ empId, populateEmployeeList}: Props) => {
       <Snackbar
         open={snackBar.open}
         autoHideDuration={6000}
-        onClose={()=> setSnackbar({open: false, messege:''})}
+        onClose={() => setSnackbar({ open: false, messege: '' })}
         message={snackBar.messege}
       />
     </>
