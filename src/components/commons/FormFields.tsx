@@ -6,11 +6,12 @@ type Props ={
     errorMesseges: string,
     fieldValue: string,
     fieldId: string,
+    label: string,
     onChange:(e:any)=> void
 }
 
 
-const FormField = ({errorStatus,errorMesseges,fieldValue,fieldId,onChange}:Props) => {
+const FormField = ({errorStatus,errorMesseges,fieldValue,fieldId,label,onChange}:Props) => {
 
     return(
         <TextField
@@ -18,7 +19,7 @@ const FormField = ({errorStatus,errorMesseges,fieldValue,fieldId,onChange}:Props
             sx={{ width: '60%' }}
             required
             id={fieldId}
-            label='First name'
+            label={label}
             variant='standard'
             helperText={errorMesseges}
             defaultValue={fieldValue}

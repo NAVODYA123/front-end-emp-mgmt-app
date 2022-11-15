@@ -29,7 +29,7 @@ type Props = {
 
 const FormTemplate = ({ isEdit, employee }: Props) => {
   const [employeeRecord, setEmpRecord] = useState(employee)
-  const { validationStatus, errorMesseges, errorStatus, validateFormData } =
+  const { errorMesseges, errorStatus, validateFormData } =
     useValidations()
   const [snackBar, setSnackbar] = useState({ open: false, messege: '' })
   const [isError, setIsError] = useState(false)
@@ -53,8 +53,8 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
   const onUpdateRecord = async (event: any) => {
     event.preventDefault()
     setIsError(false)
-    validateFormData({ ...employeeRecord })
-    if (validationStatus) {
+    const isValid = validateFormData({ ...employeeRecord })
+    if (isValid) {
       dispatch(setLoadingState(true))
       await editEmployeeRecord(`${employeeRecord?.id}`, employeeRecord)
         .then(() => {
@@ -89,9 +89,9 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
   const addNewRecord = async (event: any) => {
     event.preventDefault()
     setIsError(false)
-    validateFormData({ ...employeeRecord })
-
-    if (validationStatus) {
+   const isValid = validateFormData({ ...employeeRecord })
+    // console.log('validationStatus',validationStatus)
+    if (isValid) {
       dispatch(setLoadingState(true))
       await addNewEmployeeRecord(employeeRecord)
         .then(() => {
@@ -175,60 +175,41 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
             <input hidden accept='image/*' multiple type='file' />
           </Button>
 
-          {/* <FormFields
+          <FormFields
             errorStatus={!errorStatus?.firstname}
-            errorMesseges={errorMesseges.firstname}
-            fieldValue={employeeRecord.firstname}
+            errorMesseges={errorMesseges?.firstname}
+            fieldValue={employeeRecord?.firstname}
             fieldId={'firstname'}
+            label={'First Name'}
             onChange={onChange}
-          /> */}
-
-          <TextField
-            error={!errorStatus?.firstname}
-            sx={{ width: '60%' }}
-            required
-            id='firstname'
-            label='First name'
-            variant='standard'
-            helperText={errorMesseges?.firstname}
-            defaultValue={employeeRecord?.firstname}
-            onChange={(e) => onChange(e)}
           />
-          <TextField
-            error={!errorStatus?.lastname}
-            sx={{ width: '60%' }}
-            required
-            id='lastname'
-            label='Last Name'
-            variant='standard'
-            helperText={errorMesseges?.lastname}
-            defaultValue={employeeRecord?.lastname}
-            onChange={(e) => onChange(e)}
+             <FormFields
+            errorStatus={!errorStatus?.lastname}
+            errorMesseges={errorMesseges?.lastname}
+            fieldValue={employeeRecord?.lastname}
+            fieldId={'lastname'}
+            label={'Last Name'}
+            onChange={onChange}
           />
 
-          <TextField
-            error={!errorStatus?.email}
-            sx={{ width: '60%' }}
-            required
-            id='email'
-            label='Email'
-            variant='standard'
-            helperText={errorMesseges?.email}
-            defaultValue={employeeRecord?.email}
-            onChange={(e) => onChange(e)}
+          <FormFields
+            errorStatus={!errorStatus?.email}
+            errorMesseges={errorMesseges?.email}
+            fieldValue={employeeRecord?.email}
+            fieldId={'email'}
+            label={'Email'}
+            onChange={onChange}
           />
 
-          <TextField
-            error={!errorStatus?.number}
-            sx={{ width: '60%' }}
-            required
-            id='number'
-            label='Phone'
-            variant='standard'
-            helperText={errorMesseges?.number}
-            defaultValue={employeeRecord?.number}
-            onChange={(e) => onChange(e)}
+          <FormFields
+            errorStatus={!errorStatus?.number}
+            errorMesseges={errorMesseges?.number}
+            fieldValue={`${employeeRecord?.number}`}
+            fieldId={'number'}
+            label={'Phone Number'}
+            onChange={onChange}
           />
+
           <FormControl variant='standard' sx={{ m: 1, width: '60%' }}>
             <InputLabel id='gender-select-label'>Select a gender</InputLabel>
             <Select
