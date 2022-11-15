@@ -25,7 +25,6 @@ export type MessegeTypes = {
 }
 
 export type ValidationData = {
-  validationStatus: boolean
   errorMesseges: MessegeTypes
   errorStatus: ErrorStatusType
   validateFormData: Function
