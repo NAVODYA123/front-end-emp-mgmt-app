@@ -30,6 +30,7 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
   const { validationStatus, errorMesseges, errorStatus, validateFormData } =
     useValidations()
   const [snackBar, setSnackbar] = useState({ open: false, messege: '' })
+  const [isError, setIsError] = useState(false)
   const router = useRouter()
 
   const dispatch = useDispatch()
@@ -42,7 +43,7 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
 
   const onUpdateRecord = async (event: any) => {
     event.preventDefault()
-
+    setIsError(false)
     await validateFormData({ ...employeeRecord })
     if (
       errorStatus.email &&
@@ -65,6 +66,7 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
             messege: 'An error occured while updating record',
           })
           dispatch(setLoadingState(false))
+          setIsError(true)
         })
     }
   }
@@ -75,11 +77,12 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
 
   const handleCloseSnaker = () => {
     setSnackbar({ open: false, messege: '' })
-    router.push('/employee/list')
+    if (!isError) router.push('/employee/list')
   }
 
   const addNewRecord = async (event: any) => {
     event.preventDefault()
+    setIsError(false)
     await validateFormData({ ...employeeRecord })
 
     if (
