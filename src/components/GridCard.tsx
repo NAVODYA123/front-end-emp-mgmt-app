@@ -1,4 +1,3 @@
-
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Unstable_Grid2'
@@ -15,7 +14,7 @@ import { ThemeProvider } from '@mui/material/styles'
 import EmpAppTheme from '../../styles/customTheme/EmpAppTheme'
 import type { EmployeeCardProps } from '../types/employeeDataTypes'
 
-const GridCard = ({ empData ,populateEmployeeList }: EmployeeCardProps) => {
+const GridCard = ({ empData, populateEmployeeList }: EmployeeCardProps) => {
   return (
     <ThemeProvider theme={EmpAppTheme}>
       <Box sx={{ minWidth: '250px' }}>
@@ -40,7 +39,10 @@ const GridCard = ({ empData ,populateEmployeeList }: EmployeeCardProps) => {
                 justifyContent: 'flex-end',
               }}
             >
-              <EmpDeleteButton populateEmployeeList={populateEmployeeList}  empId={empData.id} />
+              <EmpDeleteButton
+                populateEmployeeList={populateEmployeeList}
+                empId={empData.id}
+              />
               <EmpEditButton empId={empData.id} />
             </CardActions>
             <Avatar

@@ -1,5 +1,6 @@
 import { Employee } from '../types/employeeDataTypes'
 
+//// handle employee sort order
 const sortEmployeeArray = (
   objArray: Employee[],
   Objproperty: String | number,

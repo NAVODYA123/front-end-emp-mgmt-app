@@ -7,20 +7,16 @@ import Footer from '../src/components/footer/Footer'
 import { FC } from 'react'
 import LayoutWrapper from '../src/components/LayoutWrapper'
 
-
-
 const App: FC<AppProps> = ({ Component, ...rest }: AppProps) => {
   const { store, props } = warpper.useWrappedStore(rest)
   const { pageProps } = props
 
- 
-
   return (
     <Provider store={store}>
       <LayoutWrapper>
-      <Header />      
-      <Component {...pageProps} />
-      <Footer />
+        <Header />
+        <Component {...pageProps} />
+        <Footer />
       </LayoutWrapper>
     </Provider>
   )
