@@ -16,7 +16,8 @@ import {
   applySearchAndSort,
   populateData,
   selectEmployees,
-} from '../../src/slices/employee'
+  setLoadingState,
+} from '../../src/store/slices/employee'
 import BackButton from '../../src/components/commons/buttons/BackButton'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
@@ -26,6 +27,7 @@ import Stack from '@mui/material/Stack'
 import Switch from '@mui/material/Switch'
 import { TextField } from '@mui/material'
 import searchEmployeeArray from '../../src/utils/searchEmployeeArray'
+import '../../styles/customStyles/List.module.css'
 
 const ViewEmployee = () => {
   const [toggleList, setToggleList] = useState(true)
@@ -41,7 +43,9 @@ const ViewEmployee = () => {
     (empItem) => empItem as Employee
   )
 
+  //// fetch all employee records from API
   const getAllEmployees = async () => {
+    dispatch(setLoadingState(true))
     const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/employee`, {
       method: 'GET',
       headers: {
@@ -54,13 +58,15 @@ const ViewEmployee = () => {
         dispatch(
           applySearchAndSort(sortEmployeeArray(data, colName, sortOrder))
         )
+        dispatch(setLoadingState(false))
       })
   }
   useEffect(() => {
     getAllEmployees()
   }, [])
 
-  const handleChange = (event: SelectChangeEvent) => {
+  //// handle sort column change event
+  const onSortColumnChange = (event: SelectChangeEvent) => {
     setSortColumn(event.target.value as string)
     const sortedResult = sortEmployeeArray(
       sortedArray,
@@ -70,12 +76,14 @@ const ViewEmployee = () => {
     dispatch(applySearchAndSort(sortedResult))
   }
 
-  const handleSort = () => {
+  //// handle sort order change event
+  const onSortOrderChange = () => {
     const sortedResult = sortEmployeeArray(sortedArray, colName, !sortOrder)
     dispatch(applySearchAndSort(sortedResult))
     setSortOrder(!sortOrder)
   }
 
+  //// handle search event
   const handleSearch = ({ target }: any) => {
     let sortVal = String(target.value).toLocaleLowerCase()
     let result = searchEmployeeArray(employeeArray, sortVal)
@@ -139,9 +147,9 @@ const ViewEmployee = () => {
           >
             <Box
               sx={{
-                width: '60%',
+                width: { md: '60%', sm: '100%', xs: '100%' },
                 display: 'flex',
-                flexDirection: 'row',
+                flexDirection: { md: 'row', sm: 'column', xs: 'column' },
                 justifyContent: 'space-between',
               }}
             >
@@ -151,34 +159,41 @@ const ViewEmployee = () => {
                 type='search'
                 variant='outlined'
                 onChange={(e) => handleSearch(e)}
-                sx={{ width: '60%' }}
+                sx={{ width: { md: '60%', sm: '70%', xs: '90%' } }}
               />
-              <FormControl>
-                <Select
-                  labelId='sort-column-name'
-                  id='sort-column-name'
-                  value={colName}
-                  onChange={handleChange}
-                  sx={{ width: '150px' }}
-                >
-                  <MenuItem value={'firstname'}>First Name</MenuItem>
-                  <MenuItem value={'lastname'}>Last Name</MenuItem>
-                  <MenuItem value={'number'}>Phone</MenuItem>
-                  <MenuItem value={'email'}>Email</MenuItem>
-                </Select>
-              </FormControl>
+
               <Box
                 sx={{
-                  minWidth: '150px',
                   display: 'flex',
-                  justifyContent: 'center',
                 }}
               >
-                <Stack direction='row' spacing={1} alignItems='center'>
-                  <Typography>Z-A</Typography>
-                  <Switch checked={sortOrder} onChange={handleSort} />
-                  <Typography>A-Z</Typography>
-                </Stack>
+                <FormControl>
+                  <Select
+                    labelId='sort-column-name'
+                    id='sort-column-name'
+                    value={colName}
+                    onChange={onSortColumnChange}
+                    sx={{ width: '150px' }}
+                  >
+                    <MenuItem value={'firstname'}>First Name</MenuItem>
+                    <MenuItem value={'lastname'}>Last Name</MenuItem>
+                    <MenuItem value={'number'}>Phone</MenuItem>
+                    <MenuItem value={'email'}>Email</MenuItem>
+                  </Select>
+                </FormControl>
+                <Box
+                  sx={{
+                    minWidth: '150px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Stack direction='row' spacing={1} alignItems='center'>
+                    <Typography>Z-A</Typography>
+                    <Switch checked={sortOrder} onChange={onSortOrderChange} />
+                    <Typography>A-Z</Typography>
+                  </Stack>
+                </Box>
               </Box>
             </Box>
             <Box
@@ -187,6 +202,11 @@ const ViewEmployee = () => {
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'space-evenly',
+                alignItems: {
+                  sm: 'flex-start',
+                  xs: 'flex-start',
+                  md: 'center',
+                },
               }}
             >
               <IconButton onClick={() => setToggleList(false)}>
@@ -213,10 +233,18 @@ const ViewEmployee = () => {
                   mb: 2,
                 }}
               >
-                <ListCard key={`emp-id-list-${emp.id}`} empData={emp} populateEmployeeList={getAllEmployees}/>
+                <ListCard
+                  key={`emp-id-list-${emp.id}`}
+                  empData={emp}
+                  populateEmployeeList={getAllEmployees}
+                />
               </Box>
             ) : (
-              <GridCard key={`emp-id-grid-${emp.id}`} empData={emp} populateEmployeeList={getAllEmployees}/>
+              <GridCard
+                key={`emp-id-grid-${emp.id}`}
+                empData={emp}
+                populateEmployeeList={getAllEmployees}
+              />
             )
           })}
         </ConditionalWrapper>

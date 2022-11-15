@@ -1,7 +1,7 @@
 import { configureStore, ThunkAction } from '@reduxjs/toolkit'
 import { createWrapper } from 'next-redux-wrapper'
 import { Action } from 'redux'
-import employeeReducer from '../slices/employee'
+import employeeReducer from './slices/employee'
 
 const createStore = () => configureStore({
   reducer: {

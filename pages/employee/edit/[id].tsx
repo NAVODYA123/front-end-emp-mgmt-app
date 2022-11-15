@@ -2,7 +2,7 @@ import Box from '@mui/material/Box'
 import { Employee } from '../../../src/types/employeeDataTypes'
 import { useRouter } from 'next/router'
 import { useSelector } from 'react-redux'
-import { selectEmployees } from '../../../src/slices/employee'
+import { selectEmployees } from '../../../src/store/slices/employee'
 import FormTemplate from '../../../src/components/commons/FormTemplate'
 import BackButton from '../../../src/components/commons/buttons/BackButton'
 

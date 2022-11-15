@@ -5,7 +5,7 @@ import Avatar from '@mui/material/Avatar'
 import EmpEditButton from './commons/buttons/EmpEditButton'
 import EmpDeleteButton from './commons/buttons/EmpDeleteButton'
 
-const ListCard = ({ empData,populateEmployeeList }: EmployeeCardProps) => {
+const ListCard = ({ empData, populateEmployeeList }: EmployeeCardProps) => {
   return (
     <Box
       sx={{
@@ -53,7 +53,10 @@ const ListCard = ({ empData,populateEmployeeList }: EmployeeCardProps) => {
         {empData.gender === 'M' ? 'Male' : 'Female'}
       </Box>
       <Box sx={{ width: '10%' }}>
-        <EmpDeleteButton populateEmployeeList={populateEmployeeList} empId={empData.id} />
+        <EmpDeleteButton
+          populateEmployeeList={populateEmployeeList}
+          empId={empData.id}
+        />
         <EmpEditButton empId={empData.id} />
       </Box>
     </Box>

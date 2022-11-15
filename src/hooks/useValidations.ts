@@ -15,6 +15,7 @@ import {
   MessegeTypes,
 } from '../types/employeeDataTypes'
 
+//// validation hook
 const useValidations = (): ValidationData => {
   const [errorMesseges, setErrorMesseges] = useState<MessegeTypes>({
     firstname: '',
@@ -31,6 +32,7 @@ const useValidations = (): ValidationData => {
     email: true,
   })
 
+  //// validate phone number
   const validatePhone = (number: string) => {
     const valid = isMobilePhone(number, 'si-LK')
     const message = valid
@@ -39,12 +41,14 @@ const useValidations = (): ValidationData => {
     return { valid, message }
   }
 
+  //// validate email address
   const validateEmail = (emailData: string) => {
     const valid = isEmail(emailData)
     const message = valid ? '' : 'Invalid email address'
     return { valid, message }
   }
 
+  //// validate first name and last name
   const validateName = (name: string) => {
     let messages = []
     let valid = true
@@ -69,6 +73,7 @@ const useValidations = (): ValidationData => {
     }
   }
 
+  //// validate form data
   const validateFormData = (submittedData: FormData) => {
     const emailDataObject = validateEmail(submittedData.email)
     const firstNameDataObject = validateName(submittedData.firstname)

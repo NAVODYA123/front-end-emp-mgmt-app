@@ -17,6 +17,8 @@ import Link from 'next/link'
 import useValidations from '../../hooks/useValidations'
 import { useRouter } from 'next/router'
 import Snackbar from '@mui/material/Snackbar'
+import { setLoadingState } from '../../store/slices/employee'
+import { useDispatch } from 'react-redux'
 
 type Props = {
   isEdit: boolean
@@ -30,6 +32,8 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
   const [snackBar, setSnackbar] = useState({ open: false, messege: '' })
   const router = useRouter()
 
+  const dispatch = useDispatch()
+
   const onChange = ({
     target,
   }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -38,17 +42,31 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
 
   const onUpdateRecord = async (event: any) => {
     event.preventDefault()
-    await editEmployeeRecord(`${employeeRecord?.id}`, employeeRecord).then(()=>{
-      setSnackbar({
-        open: true,
-        messege: 'Successfully updated',
-      })
-    }).catch((err)=>{
-      setSnackbar({
-        open: true,
-        messege: 'An error occured while updating record',
-      })
-    })
+
+    await validateFormData({ ...employeeRecord })
+    if (
+      errorStatus.email &&
+      errorStatus.firstname &&
+      errorStatus.lastname &&
+      errorStatus.number
+    ) {
+      dispatch(setLoadingState(true))
+      await editEmployeeRecord(`${employeeRecord?.id}`, employeeRecord)
+        .then(() => {
+          setSnackbar({
+            open: true,
+            messege: 'Successfully updated',
+          })
+          dispatch(setLoadingState(false))
+        })
+        .catch((err) => {
+          setSnackbar({
+            open: true,
+            messege: 'An error occured while updating record',
+          })
+          dispatch(setLoadingState(false))
+        })
+    }
   }
 
   const onGenderSelect = ({ target }: any) => {
@@ -70,18 +88,21 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
       errorStatus.lastname &&
       errorStatus.number
     ) {
+      dispatch(setLoadingState(true))
       await addNewEmployeeRecord(employeeRecord)
         .then(() => {
-           setSnackbar({
+          setSnackbar({
             open: true,
             messege: 'Successfully added',
           })
+          dispatch(setLoadingState(false))
         })
         .catch((err) => {
           setSnackbar({
             open: true,
             messege: 'An error occured while adding record',
           })
+          dispatch(setLoadingState(false))
         })
     }
   }

@@ -5,29 +5,32 @@ import { useEffect, useState } from 'react'
 import ConfirmDelete from '../ConfirmDeleteModal'
 import Router, { useRouter } from 'next/router'
 import Snackbar from '@mui/material/Snackbar'
+import { useDispatch } from 'react-redux'
+import { setLoadingState } from '../../../store/slices/employee'
 
 type Props = {
-  empId: string,
-  populateEmployeeList:Function
+  empId: string
+  populateEmployeeList: Function
 }
 
-const EmpDeleteButton = ({ empId, populateEmployeeList}: Props) => {
-  // const [employeeID, setEmployeeId] = useState('')
+const EmpDeleteButton = ({ empId, populateEmployeeList }: Props) => {
   const [openModal, setModalOpen] = useState(false)
   const [snackBar, setSnackbar] = useState({ open: false, messege: '' })
 
-  const router = useRouter()
-  // useEffect(() => {
-  //   setEmployeeId(empId)
-  // }, [])
+  const dispatch = useDispatch()
 
+  const router = useRouter()
+
+  //// close confirmation modal event
   const closeModal = (e: any) => {
     e.preventDefault()
     e.stopPropagation()
     setModalOpen(false)
   }
 
+  //// handle delete record
   const handleDelete = async () => {
+    dispatch(setLoadingState(true))
     await deleteEmplyeeRecord(empId)
       .then(() => {
         setSnackbar({
@@ -35,6 +38,7 @@ const EmpDeleteButton = ({ empId, populateEmployeeList}: Props) => {
           messege: 'Successfully deleted',
         })
         populateEmployeeList()
+        dispatch(setLoadingState(false))
         router.push('/employee/list')
       })
       .catch((err) => {
@@ -42,10 +46,11 @@ const EmpDeleteButton = ({ empId, populateEmployeeList}: Props) => {
           open: true,
           messege: 'An error occured while deleteing Record',
         })
+        dispatch(setLoadingState(false))
       })
     setModalOpen(false)
   }
-
+  //// open confirmation modal
   const handleClickOpen = () => {
     setModalOpen(true)
   }
@@ -65,7 +70,7 @@ const EmpDeleteButton = ({ empId, populateEmployeeList}: Props) => {
       <Snackbar
         open={snackBar.open}
         autoHideDuration={6000}
-        onClose={()=> setSnackbar({open: false, messege:''})}
+        onClose={() => setSnackbar({ open: false, messege: '' })}
         message={snackBar.messege}
       />
     </>
