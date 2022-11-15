@@ -9,7 +9,7 @@ import {
   Select,
   MenuItem,
 } from '@mui/material'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { addNewEmployeeRecord } from '../../services/addNewEmployeeRecord'
 import { editEmployeeRecord } from '../../services/editEmployeeRecord'
 import { Employee } from '../../types/employeeDataTypes'
@@ -37,6 +37,12 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
 
   const dispatch = useDispatch()
 
+  useEffect(() => {
+    if (isEdit && employee === undefined) {
+      router.push('/employee/list')
+    }
+  }, [])
+
   const onChange = ({
     target,
   }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -47,7 +53,7 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
   const onUpdateRecord = async (event: any) => {
     event.preventDefault()
     setIsError(false)
-     validateFormData({ ...employeeRecord })
+    validateFormData({ ...employeeRecord })
     if (validationStatus) {
       dispatch(setLoadingState(true))
       await editEmployeeRecord(`${employeeRecord?.id}`, employeeRecord)
@@ -76,7 +82,7 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
   //// handle close toast
   const handleCloseSnaker = () => {
     setSnackbar({ open: false, messege: '' })
-    if (isError===false) router.push('/employee/list')
+    if (isError === false) router.push('/employee/list')
   }
 
   //// handle add new record event
@@ -84,8 +90,8 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
     event.preventDefault()
     setIsError(false)
     validateFormData({ ...employeeRecord })
-   
-    if (validationStatus) {     
+
+    if (validationStatus) {
       dispatch(setLoadingState(true))
       await addNewEmployeeRecord(employeeRecord)
         .then(() => {
@@ -100,11 +106,10 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
             open: true,
             messege: 'An error occured while adding record',
           })
-          setIsError(true)        
+          setIsError(true)
           dispatch(setLoadingState(false))
         })
-    }     
-    else {
+    } else {
       setIsError(true)
     }
   }
