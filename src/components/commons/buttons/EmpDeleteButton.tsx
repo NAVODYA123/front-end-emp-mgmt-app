@@ -1,9 +1,9 @@
 import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { deleteEmplyeeRecord } from '../../../services/deleteEmployeeRecord'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import ConfirmDelete from '../ConfirmDeleteModal'
-import Router, { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import Snackbar from '@mui/material/Snackbar'
 import { useDispatch } from 'react-redux'
 import { setLoadingState } from '../../../store/slices/employee'
@@ -50,14 +50,10 @@ const EmpDeleteButton = ({ empId, populateEmployeeList }: Props) => {
       })
     setModalOpen(false)
   }
-  //// open confirmation modal
-  const handleClickOpen = () => {
-    setModalOpen(true)
-  }
 
   return (
     <>
-      <IconButton onClick={handleClickOpen}>
+      <IconButton onClick={()=>setModalOpen(true)}>
         {openModal && (
           <ConfirmDelete
             handleDelete={handleDelete}

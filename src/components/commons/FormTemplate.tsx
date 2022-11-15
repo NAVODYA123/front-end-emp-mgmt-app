@@ -19,6 +19,8 @@ import { useRouter } from 'next/router'
 import Snackbar from '@mui/material/Snackbar'
 import { setLoadingState } from '../../store/slices/employee'
 import { useDispatch } from 'react-redux'
+import FormField from './FormFields'
+import FormFields from './FormFields'
 
 type Props = {
   isEdit: boolean
@@ -30,6 +32,7 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
   const { validationStatus, errorMesseges, errorStatus, validateFormData } =
     useValidations()
   const [snackBar, setSnackbar] = useState({ open: false, messege: '' })
+  const [isError, setIsError] = useState(false)
   const router = useRouter()
 
   const dispatch = useDispatch()
@@ -40,16 +43,12 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
     setEmpRecord({ ...employeeRecord, [target.id]: target.value })
   }
 
+  //// handle update record
   const onUpdateRecord = async (event: any) => {
     event.preventDefault()
-
-    await validateFormData({ ...employeeRecord })
-    if (
-      errorStatus.email &&
-      errorStatus.firstname &&
-      errorStatus.lastname &&
-      errorStatus.number
-    ) {
+    setIsError(false)
+     validateFormData({ ...employeeRecord })
+    if (validationStatus) {
       dispatch(setLoadingState(true))
       await editEmployeeRecord(`${employeeRecord?.id}`, employeeRecord)
         .then(() => {
@@ -65,29 +64,28 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
             messege: 'An error occured while updating record',
           })
           dispatch(setLoadingState(false))
+          setIsError(true)
         })
     }
   }
-
+  //// handle gender select
   const onGenderSelect = ({ target }: any) => {
     setEmpRecord({ ...employeeRecord, gender: target.value })
   }
 
+  //// handle close toast
   const handleCloseSnaker = () => {
     setSnackbar({ open: false, messege: '' })
-    router.push('/employee/list')
+    if (isError===false) router.push('/employee/list')
   }
 
+  //// handle add new record event
   const addNewRecord = async (event: any) => {
     event.preventDefault()
-    await validateFormData({ ...employeeRecord })
-
-    if (
-      errorStatus.email &&
-      errorStatus.firstname &&
-      errorStatus.lastname &&
-      errorStatus.number
-    ) {
+    setIsError(false)
+    validateFormData({ ...employeeRecord })
+   
+    if (validationStatus) {     
       dispatch(setLoadingState(true))
       await addNewEmployeeRecord(employeeRecord)
         .then(() => {
@@ -102,8 +100,12 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
             open: true,
             messege: 'An error occured while adding record',
           })
+          setIsError(true)        
           dispatch(setLoadingState(false))
         })
+    }     
+    else {
+      setIsError(true)
     }
   }
 
@@ -167,6 +169,14 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
             />
             <input hidden accept='image/*' multiple type='file' />
           </Button>
+
+          {/* <FormFields
+            errorStatus={!errorStatus?.firstname}
+            errorMesseges={errorMesseges.firstname}
+            fieldValue={employeeRecord.firstname}
+            fieldId={'firstname'}
+            onChange={onChange}
+          /> */}
 
           <TextField
             error={!errorStatus?.firstname}
