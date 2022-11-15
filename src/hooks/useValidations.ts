@@ -88,7 +88,6 @@ const useValidations = (): ValidationData => {
     setValidationStaus(validationState)
 
     setErrorMesseges({
-      ...errorMesseges,
       firstname: firstNameDataObject.message,
       lastname: lastNameDataObject.message,
       number: phoneDataObject.message,
@@ -96,12 +95,11 @@ const useValidations = (): ValidationData => {
     })
 
     setErrorStatus({
-      ...errorStatus,
       firstname: firstNameDataObject.valid,
       lastname: lastNameDataObject.valid,
       number: phoneDataObject.valid,
       email: emailDataObject.valid,
-    })
+    })     
   }
 
   return {
