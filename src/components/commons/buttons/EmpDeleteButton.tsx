@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import Snackbar from '@mui/material/Snackbar'
 import { useDispatch } from 'react-redux'
 import { setLoadingState } from '../../../store/slices/employee'
+import { red } from '@mui/material/colors'
 
 type Props = {
   empId: string
