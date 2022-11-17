@@ -10,8 +10,8 @@ import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined'
 import Tooltip from '@mui/material/Tooltip'
 import EmpDeleteButton from './commons/buttons/EmpDeleteButton'
 import EmpEditButton from './commons/buttons/EmpEditButton'
-import Collapse from '@mui/material/Collapse';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Collapse from '@mui/material/Collapse'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 import IconButton from '@mui/material/IconButton'
 import { ThemeProvider } from '@mui/material/styles'
 import EmpAppTheme from '../../styles/customTheme/EmpAppTheme'
@@ -19,8 +19,7 @@ import type { EmployeeCardProps } from '../types/employeeDataTypes'
 import { useState } from 'react'
 
 const GridCard = ({ empData, populateEmployeeList }: EmployeeCardProps) => {
-
-const [expanded, setExpanded] = useState(false)
+  const [expanded, setExpanded] = useState(false)
 
   return (
     <ThemeProvider theme={EmpAppTheme}>
@@ -44,27 +43,34 @@ const [expanded, setExpanded] = useState(false)
                 display: 'flex',
                 flexDirection: 'row !important',
                 justifyContent: 'flex-end',
-                height: '50px'
+                height: '50px',
               }}
             >
-           
-            <IconButton  onClick={()=>setExpanded(!expanded)}>
-          <MoreVertIcon/>
-          </IconButton>
+              <IconButton onClick={() => setExpanded(!expanded)}>
+                <MoreVertIcon />
+              </IconButton>
 
-            <Collapse in={expanded} timeout={100} unmountOnExit orientation={'vertical'}>
-              <Box sx={{ height:'50px', width: '100%', display:'flex', flexDirection:'column' }}>
-              <EmpDeleteButton
-                populateEmployeeList={populateEmployeeList}
-                empId={empData.id}
-              />
-              <EmpEditButton empId={empData.id} />
-              </Box>
-
-            </Collapse>
-
-
-
+              <Collapse
+                in={expanded}
+                timeout={100}
+                unmountOnExit
+                orientation={'vertical'}
+              >
+                <Box
+                  sx={{
+                    height: '50px',
+                    width: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                  }}
+                >
+                  <EmpDeleteButton
+                    populateEmployeeList={populateEmployeeList}
+                    empId={empData.id}
+                  />
+                  <EmpEditButton empId={empData.id} />
+                </Box>
+              </Collapse>
             </CardActions>
             <Avatar
               alt={empData.photo}
