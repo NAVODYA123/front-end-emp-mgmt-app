@@ -9,6 +9,7 @@ const ListTableHeader = () => {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-evenly',
+        mt:4,        
       }}
     >
       <Box
@@ -20,6 +21,8 @@ const ListTableHeader = () => {
           justifyContent: 'space-evenly',
           borderRadius: '8px',
           alignItems: 'center',
+          backgroundColor:'#12426e',
+          color: '#FFFFFF'
         }}
       >
         {' '}
