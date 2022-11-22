@@ -90,7 +90,7 @@ const FormTemplate = ({ isEdit, employee }: Props) => {
     event.preventDefault()
     setIsError(false)
    const isValid = validateFormData({ ...employeeRecord })
-    // console.log('validationStatus',validationStatus)
+   
     if (isValid) {
       dispatch(setLoadingState(true))
       await addNewEmployeeRecord(employeeRecord)
